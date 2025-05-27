@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Photographe Professionnel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+    <div id="protection-overlay" class="protection-overlay"></div>
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-animation">
+            <div class="camera-icon">📸</div>
+            <div class="loading-text">Chargement du portfolio...</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+    <div id="privacy-modal" class="modal">
+        <div class="modal-content">
+            <h2>Conditions d'utilisation et Confidentialité</h2>
+            <div class="modal-body">
+                <h3>Conditions d'utilisation</h3>
+                <p>En accédant à ce portfolio, vous acceptez les conditions suivantes :</p>
+                <ul>
+                    <li>Toutes les images sont protégées par des droits d'auteur</li>
+                    <li>La capture d'écran et le téléchargement sont strictement interdits</li>
+                    <li>L'utilisation commerciale nécessite une autorisation écrite</li>
+                    <li>Votre activité sur ce site est surveillée pour des raisons de sécurité</li>
+                </ul>
+                
+                <h3>Politique de confidentialité</h3>
+                <p>Nous collectons les informations suivantes à des fins de sécurité :</p>
+                <ul>
+                    <li>Adresse IP et données de géolocalisation</li>
+                    <li>Informations sur votre navigateur et appareil</li>
+                    <li>Interactions avec le site web</li>
+                    <li>Données de navigation et temps passé</li>
+                </ul>
+                
+                <div class="modal-checkbox">
+                    <input type="checkbox" id="accept-terms" required>
+                    <label for="accept-terms">J'accepte les conditions d'utilisation et la politique de confidentialité</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="accept-btn" class="btn-primary" disabled>Accepter et continuer</button>
+                <button id="decline-btn" class="btn-secondary">Refuser</button>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">Portfolio</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#accueil" class="nav-link active">Accueil</a>
+                <a href="#galerie" class="nav-link">Galerie</a>
+                <a href="#apropos" class="nav-link">À propos</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <div class="admin-link" id="admin-access">
+                    <a href="#" id="admin-btn">Admin</a>
+                </div>
+            </div>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Changer de thème">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section id="accueil" class="hero">
+        <div class="hero-background">
+            <div class="hero-slide active" data-bg="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1920&h=1080&fit=crop"></div>
+            <div class="hero-slide" data-bg="https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=1920&h=1080&fit=crop"></div>
+            <div class="hero-slide" data-bg="https://images.unsplash.com/photo-1500322969630-a26ab6eb64cc?w=1920&h=1080&fit=crop"></div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-line">Capturer</span>
+                <span class="title-line">l'Instant</span>
+                <span class="title-line accent">Parfait</span>
+            </h1>
+            <p class="hero-subtitle">Photographe professionnel spécialisé dans les portraits, mariages et événements</p>
+            <div class="hero-cta">
+                <button class="btn-primary hero-btn" onclick="scrollToSection('galerie')">Découvrir mon travail</button>
+                <button class="btn-secondary hero-btn" onclick="scrollToSection('contact')">Me contacter</button>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+    <section class="gallery-preview">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Aperçu de mon travail</h2>
+                <p class="section-subtitle">Une sélection de mes meilleures créations</p>
+            </div>
+            <div class="preview-grid" id="preview-grid">
+            </div>
+            <div class="preview-cta">
+                <button class="btn-primary" onclick="window.location.href='galerie.html'">Voir toute la galerie</button>
+            </div>
+        </div>
+    </section>
+    <section id="apropos" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">À propos de moi</h2>
+                    <p class="about-description">
+                        Passionné de photographie depuis plus de 10 ans, je capture les moments les plus précieux 
+                        de votre vie avec créativité et professionnalisme. Spécialisé dans les portraits, mariages 
+                        et événements, je mets mon expertise au service de vos souvenirs.
+                    </p>
+                    <div class="skills">
+                        <div class="skill-item">
+                            <h4>Portraits</h4>
+                            <p>Sessions photo individuelles et de groupe</p>
+                        </div>
+                        <div class="skill-item">
+                            <h4>Mariages</h4>
+                            <p>Couverture complète de votre jour J</p>
+                        </div>
+                        <div class="skill-item">
+                            <h4>Événements</h4>
+                            <p>Anniversaires, baptêmes, événements corporate</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=600&fit=crop" alt="Photographe" class="protected-image">
+                    <div class="image-decoration"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Contactez-moi</h2>
+                <p class="section-subtitle">Discutons de votre projet photo</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>contact@photographe.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-details">
+                            <h4>Téléphone</h4>
+                            <p>+33 1 23 45 67 89</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h4>Localisation</h4>
+                            <p>Paris, France</p>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Instagram</a>
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                    </div>
+                </div>
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Votre nom" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Votre email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" name="phone" placeholder="Votre téléphone">
+                    </div>
+                    <div class="form-group">
+                        <select id="service" name="service" required>
+                            <option value="">Type de prestation</option>
+                            <option value="portrait">Portrait</option>
+                            <option value="mariage">Mariage</option>
+                            <option value="evenement">Événement</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" placeholder="Décrivez votre projet" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Envoyer le message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <div id="admin-panel" class="admin-panel">
+        <div class="admin-content">
+            <div class="admin-header">
+                <h2>Panneau d'administration</h2>
+                <button id="close-admin" class="close-btn">✕</button>
+            </div>
+            
+            <div class="admin-auth" id="admin-auth">
+                <h3>Authentification</h3>
+                <input type="password" id="admin-password" placeholder="Mot de passe administrateur">
+                <button id="admin-login" class="btn-primary">Se connecter</button>
+            </div>
+            
+            <div class="admin-dashboard" id="admin-dashboard" style="display: none;">
+                <div class="admin-notice">
+                    <p>⚠️ En mode admin, les protections contre le clic droit et les outils de développement sont désactivées.</p>
+                </div>
+                <div class="admin-tabs">
+                    <button class="tab-btn active" data-tab="upload">Upload</button>
+                    <button class="tab-btn" data-tab="gallery">Galerie</button>
+                    <button class="tab-btn" data-tab="logs">Logs</button>
+                </div>
+                
+                <div class="tab-content active" id="upload-tab">
+                    <h3>Upload d'images</h3>
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-icon">📁</div>
+                        <p>Glissez vos images ici ou cliquez pour sélectionner</p>
+                        <input type="file" id="file-input" multiple accept="image/*">
+                    </div>
+                    <div class="upload-queue" id="upload-queue"></div>
+                </div>
+                
+                <div class="tab-content" id="gallery-tab">
+                    <h3>Gestion de la galerie</h3>
+                    <div class="admin-gallery" id="admin-gallery"></div>
+                </div>
+                
+                <div class="tab-content" id="logs-tab">
+                    <h3>Logs de sécurité</h3>
+                    <div class="logs-container" id="logs-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="image-modal" class="image-modal">
+        <div class="modal-backdrop"></div>
+        <div class="image-modal-content">
+            <button class="close-modal">✕</button>
+            <div class="image-container">
+                <img id="modal-image" class="modal-image protected-image" alt="">
+                <div class="image-nav">
+                    <button class="nav-btn prev-btn">‹</button>
+                    <button class="nav-btn next-btn">›</button>
+                </div>
+            </div>
+            <div class="image-info">
+                <h3 id="image-title"></h3>
+                <div class="image-details">
+                    <span id="image-location"></span>
+                    <span id="image-equipment"></span>
+                    <span id="image-date"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Portfolio Photographe</h4>
+                    <p>Capturer vos moments les plus précieux avec passion et professionnalisme.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li>Portraits</li>
+                        <li>Mariages</li>
+                        <li>Événements</li>
+                        <li>Corporate</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: contact@photographe.com</p>
+                    <p>Tél: +33 1 23 45 67 89</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Portfolio Photographe. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
