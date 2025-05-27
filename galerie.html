@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie - Portfolio Photographe</title>
+    <link rel="stylesheet" href="galerie.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+    <div id="protection-overlay" class="protection-overlay"></div>
+    
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-animation">
+            <div class="camera-icon">📸</div>
+            <div class="loading-text">Chargement de la galerie...</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">Portfolio</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Accueil</a>
+                <a href="#galerie" class="nav-link active">Galerie</a>
+                <a href="index.html#apropos" class="nav-link">À propos</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Changer de thème">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Gallery Header -->
+    <section class="gallery-header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="gallery-title">Ma Galerie</h1>
+                <p class="gallery-subtitle">Découvrez une sélection de mes meilleures œuvres photographiques</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Filters -->
+    <section class="gallery-filters">
+        <div class="container">
+            <div class="filter-tabs">
+                <button class="filter-btn active" data-filter="all">Toutes</button>
+                <button class="filter-btn" data-filter="portraits">Portraits</button>
+                <button class="filter-btn" data-filter="mariages">Mariages</button>
+                <button class="filter-btn" data-filter="evenements">Événements</button>
+                <button class="filter-btn" data-filter="nature">Nature</button>
+                <button class="filter-btn" data-filter="urbain">Urbain</button>
+            </div>
+            <div class="gallery-controls">
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid" title="Vue grille">⊞</button>
+                    <button class="view-btn" data-view="masonry" title="Vue mosaïque">⊟</button>
+                </div>
+                <div class="sort-options">
+                    <select id="sort-select">
+                        <option value="recent">Plus récents</option>
+                        <option value="oldest">Plus anciens</option>
+                        <option value="name">Par nom</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section id="galerie" class="gallery-section">
+        <div class="container">
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Images will be loaded here dynamically -->
+            </div>
+            <div class="load-more-container">
+                <button id="load-more" class="btn-primary">Charger plus d'images</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="image-modal">
+        <div class="modal-backdrop"></div>
+        <div class="image-modal-content">
+            <button class="close-modal">✕</button>
+            <div class="image-container">
+                <img id="modal-image" class="modal-image protected-image" alt="">
+                <div class="image-nav">
+                    <button class="nav-btn prev-btn" title="Image précédente">‹</button>
+                    <button class="nav-btn next-btn" title="Image suivante">›</button>
+                </div>
+                <div class="image-counter">
+                    <span id="current-image">1</span> / <span id="total-images">1</span>
+                </div>
+            </div>
+            <div class="image-info">
+                <h3 id="image-title">Titre de l'image</h3>
+                <div class="image-details">
+                    <div class="detail-item">
+                        <span class="detail-label">📍</span>
+                        <span id="image-location">Lieu</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">📷</span>
+                        <span id="image-equipment">Équipement</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">📅</span>
+                        <span id="image-date">Date</span>
+                    </div>
+                </div>
+                <p id="image-description" class="image-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <button id="back-to-top" class="back-to-top" title="Retour en haut">↑</button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Portfolio Photographe</h4>
+                    <p>Capturer vos moments les plus précieux avec passion et professionnalisme.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="#galerie">Galerie</a></li>
+                        <li><a href="index.html#apropos">À propos</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: contact@photographe.com</p>
+                    <p>Tél: +33 1 23 45 67 89</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Portfolio Photographe. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="galerie.js"></script>
+</body>
+</html>
