@@ -19,8 +19,8 @@
     --shadow-heavy: 0 10px 40px rgba(0,0,0,0.15);
     --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --border-radius: 12px;
-    --border-radius-small: 8px;
+    --border-radius: 10px;
+    --border-radius-small: 5px;
 }
 
 [data-theme="dark"] {
@@ -55,7 +55,6 @@ body {
     padding: 0 20px;
 }
 
-/* Protection overlay */
 .protection-overlay {
     position: fixed;
     top: 0;
@@ -67,7 +66,6 @@ body {
     pointer-events: none;
 }
 
-/* Loading Screen */
 .loading-screen {
     position: fixed;
     top: 0;
@@ -128,7 +126,6 @@ body {
     100% { width: 100%; }
 }
 
-/* Navigation */
 .navbar {
     position: fixed;
     top: 0;
@@ -231,7 +228,6 @@ body {
     transition: var(--transition-smooth);
 }
 
-/* Gallery Header */
 .gallery-header {
     margin-top: 80px;
     padding: 4rem 0 2rem;
@@ -254,7 +250,6 @@ body {
     margin: 0 auto;
 }
 
-/* Gallery Filters */
 .gallery-filters {
     padding: 2rem 0;
     background: var(--background-color);
@@ -277,7 +272,7 @@ body {
     border: 2px solid var(--border-color);
     background: var(--background-color);
     color: var(--text-color);
-    border-radius: 25px;
+    border-radius: 10px;
     cursor: pointer;
     transition: var(--transition-smooth);
     font-weight: 500;
@@ -331,16 +326,15 @@ body {
     cursor: pointer;
 }
 
-/* Gallery Section */
 .gallery-section {
-    padding: 3rem 0;
-    min-height: 60vh;
+    padding: 5rem 0;
+    min-height: 100vh;
 }
 
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+    gap: 3rem;
     margin-bottom: 3rem;
     transition: var(--transition-smooth);
 }
@@ -415,7 +409,7 @@ body {
     background: var(--accent-color);
     color: white;
     padding: 0.3rem 0.8rem;
-    border-radius: 15px;
+    border-radius: 5px;
     font-size: 0.8rem;
     font-weight: 500;
     opacity: 0;
@@ -901,7 +895,6 @@ body {
     background: var(--surface-color);
 }
 
-/* Loading states */
 .gallery-item.loading {
     background: var(--surface-color);
     animation: pulse 1.5s infinite;
@@ -920,7 +913,6 @@ body {
     }
 }
 
-/* Error states */
 .gallery-item.error {
     background: var(--surface-color);
     display: flex;
@@ -935,7 +927,6 @@ body {
     font-size: 0.9rem;
 }
 
-/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -948,7 +939,6 @@ body {
     }
 }
 
-/* Focus styles for keyboard navigation */
 .filter-btn:focus,
 .view-btn:focus,
 .nav-btn:focus,
@@ -960,4 +950,200 @@ body {
 .gallery-item:focus {
     outline: 3px solid var(--accent-color);
     outline-offset: 2px;
+}
+
+/* Admin Panel */
+.admin-panel {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100%;
+    background: var(--surface-color);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    z-index: 2001;
+    transition: var(--transition-smooth);
+    overflow-y: auto;
+}
+
+.admin-panel.active {
+    right: 0;
+}
+
+.admin-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-admin {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-light);
+}
+
+.admin-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-tab {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    text-align: center;
+}
+
+.admin-tab.active {
+    border-bottom: 2px solid var(--accent-color);
+    color: var(--accent-color);
+}
+
+.tab-content {
+    display: none;
+    padding: 1.5rem;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.upload-area {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.upload-area:hover {
+    border-color: var(--accent-color);
+    background: rgba(231, 76, 60, 0.05);
+}
+
+.management-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.management-item {
+    position: relative;
+    border-radius: var(--border-radius-small);
+    overflow: hidden;
+}
+
+.management-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.management-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5rem;
+}
+
+.management-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.admin-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-small);
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+.edit-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+}
+
+.edit-modal-content {
+    background: var(--surface-color);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.edit-modal img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.edit-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-small);
+    background: var(--background-color);
+    color: var(--text-color);
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-actions {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
 }

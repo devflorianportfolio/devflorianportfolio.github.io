@@ -1,8 +1,8 @@
 /* Variables CSS pour la cohérence */
 :root {
-    --primary-color: #d4af37;
-    --primary-light: #e8c547;
-    --primary-dark: #b8941f;
+    --primary-color: #e74c3c;
+    --primary-light: #e74c3c;
+    --primary-dark: #e74c3c;
     --secondary-color: #1a1a1a;
     --accent-color: #2c2c2c;
     --text-primary: #ffffff;
@@ -14,7 +14,7 @@
     --shadow-light: rgba(212, 175, 55, 0.1);
     --shadow-medium: rgba(0, 0, 0, 0.3);
     --shadow-heavy: rgba(0, 0, 0, 0.6);
-    --gradient-gold: linear-gradient(135deg, #d4af37 0%, #e8c547 100%);
+    --gradient-gold: linear-gradient(135deg, #e74c3c 0%, #c53e2f 100%);
     --gradient-dark: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
     --blur-backdrop: blur(20px);
     --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -333,12 +333,12 @@ body::before {
 .btn-primary {
     background: var(--gradient-gold);
     color: var(--secondary-color);
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 8px 25px rgba(212, 55, 55, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 15px 35px rgba(212, 55, 55, 0.4);
 }
 
 .btn-secondary {
@@ -514,14 +514,14 @@ body::before {
 
 .skill-item {
     padding: 1.5rem;
-    background: rgba(212, 175, 55, 0.05);
+    background: rgba(212, 55, 55, 0.05);
     border-radius: 15px;
-    border: 1px solid rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 55, 55, 0.1);
     transition: var(--transition-smooth);
 }
 
 .skill-item:hover {
-    background: rgba(212, 175, 55, 0.1);
+    background: rgba(212, 55, 55, 0.1);
     transform: translateX(10px);
 }
 
@@ -681,6 +681,12 @@ body::before {
 .form-group textarea {
     resize: vertical;
     min-height: 120px;
+}
+
+.form-group select {
+    appearance: none;
+    background: var(--background-card);
+    color: var(--text-primary);
 }
 
 /* Footer */

@@ -1,6 +1,337 @@
-// Galerie JavaScript
+class GalleryManager {
+    constructor() {
+        this.uploadedImagesKey = 'uploadedImages';
+        this.adminIPs = ['127.0.0.1', '192.168.10.27'];
+        this.isAdmin = false;
+        this.init();
+    }
 
-// Variables globales
+    async init() {
+        await this.checkAdminStatus();
+        this.setupAdminPanel();
+        this.loadAllImages();
+        this.setupEventListeners();
+    }
+
+    async checkAdminStatus() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            this.isAdmin = this.adminIPs.includes(data.ip);
+        } catch (error) {
+            console.error('IP check failed:', error);
+            this.isAdmin = false;
+        }
+    }
+
+    setupAdminPanel() {
+        if (this.isAdmin) {
+            const adminBtn = document.createElement('button');
+            adminBtn.id = 'admin-btn';
+            adminBtn.className = 'admin-btn';
+            adminBtn.textContent = 'Admin';
+            adminBtn.addEventListener('click', () => this.toggleAdminPanel());
+            
+            const navControls = document.querySelector('.nav-controls');
+            if (navControls) navControls.prepend(adminBtn);
+
+            this.renderAdminPanel();
+        }
+    }
+
+    renderAdminPanel() {
+        const adminPanel = document.createElement('div');
+        adminPanel.id = 'admin-panel';
+        adminPanel.className = 'admin-panel';
+        adminPanel.innerHTML = `
+            <div class="admin-content">
+                <div class="admin-header">
+                    <h3>Administration Galerie</h3>
+                    <button class="close-admin">✕</button>
+                </div>
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="upload">Upload</button>
+                    <button class="admin-tab" data-tab="manage">Gérer</button>
+                </div>
+                <div class="tab-content active" id="upload-tab">
+                    <div class="upload-area" id="upload-area">
+                        <input type="file" id="file-input" accept="image/*" multiple style="display: none;">
+                        <p>Glissez-déposez des images ici ou cliquez pour sélectionner</p>
+                        <button id="select-files" class="btn-primary">Sélectionner des fichiers</button>
+                    </div>
+                    <div id="upload-progress"></div>
+                </div>
+                <div class="tab-content" id="manage-tab">
+                    <div class="search-bar">
+                        <input type="text" id="image-search" placeholder="Rechercher des images...">
+                    </div>
+                    <div id="image-management-grid" class="management-grid"></div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(adminPanel);
+    }
+
+    toggleAdminPanel() {
+        const panel = document.getElementById('admin-panel');
+        panel.classList.toggle('active');
+    }
+
+    loadAllImages() {
+        const defaultImages = [...galleryData];
+        const uploadedImages = JSON.parse(localStorage.getItem(this.uploadedImagesKey)) || [];
+        this.allImages = [...defaultImages, ...uploadedImages];
+        return this.allImages;
+    }
+
+    async uploadImages(files) {
+        const uploads = Array.from(files).map(file => this.uploadImage(file));
+        return Promise.all(uploads);
+    }
+
+    async uploadImage(file) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const newImage = {
+                    id: Date.now() + Math.floor(Math.random() * 1000),
+                    src: e.target.result,
+                    title: file.name.replace(/\.[^/.]+$/, ""),
+                    description: "Nouvelle image uploadée",
+                    category: "uploaded",
+                    location: "Non spécifié",
+                    equipment: "Non spécifié",
+                    date: new Date().toLocaleDateString('fr-FR'),
+                    featured: false
+                };
+
+                const uploadedImages = JSON.parse(localStorage.getItem(this.uploadedImagesKey)) || [];
+                uploadedImages.push(newImage);
+                localStorage.setItem(this.uploadedImagesKey, JSON.stringify(uploadedImages));
+                window.dispatchEvent(new Event('storage'));
+
+                resolve(newImage);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    deleteImage(imageId) {
+        let uploadedImages = JSON.parse(localStorage.getItem(this.uploadedImagesKey)) || [];
+        uploadedImages = uploadedImages.filter(img => img.id !== imageId);
+        localStorage.setItem(this.uploadedImagesKey, JSON.stringify(uploadedImages));
+        window.dispatchEvent(new Event('storage'));
+        return true;
+    }
+
+    updateImage(imageId, updates) {
+        let uploadedImages = JSON.parse(localStorage.getItem(this.uploadedImagesKey)) || [];
+        const index = uploadedImages.findIndex(img => img.id === imageId);
+        
+        if (index !== -1) {
+            uploadedImages[index] = { ...uploadedImages[index], ...updates };
+            localStorage.setItem(this.uploadedImagesKey, JSON.stringify(uploadedImages));
+            window.dispatchEvent(new Event('storage'));
+            return true;
+        }
+        return false;
+    }
+
+    setupEventListeners() {
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const selectFilesBtn = document.getElementById('select-files');
+
+        if (uploadArea && fileInput && selectFilesBtn) {
+            uploadArea.addEventListener('click', () => fileInput.click());
+            selectFilesBtn.addEventListener('click', () => fileInput.click());
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = 'var(--accent-color)';
+                uploadArea.style.backgroundColor = 'rgba(231, 76, 60, 0.1)';
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = 'var(--border-color)';
+                uploadArea.style.backgroundColor = '';
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = 'var(--border-color)';
+                uploadArea.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    this.handleFiles(e.dataTransfer.files);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    this.handleFiles(e.target.files);
+                }
+            });
+        }
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('admin-tab')) {
+                const tabName = e.target.dataset.tab;
+                this.switchTab(tabName);
+            }
+            
+            if (e.target.classList.contains('close-admin')) {
+                this.toggleAdminPanel();
+            }
+        });
+    }
+
+    async handleFiles(files) {
+        const progress = document.getElementById('upload-progress');
+        if (progress) progress.innerHTML = '<p>Téléversement en cours...</p>';
+        
+        try {
+            await this.uploadImages(files);
+            if (progress) progress.innerHTML = '<p>Téléversement terminé!</p>';
+            setTimeout(() => { 
+                if (progress) progress.innerHTML = ''; 
+            }, 2000);
+            this.loadAllImages();
+            loadImages();
+            this.loadManagementGrid();
+        } catch (error) {
+            console.error('Upload failed:', error);
+            if (progress) progress.innerHTML = '<p>Erreur lors du téléversement</p>';
+        }
+    }
+
+    switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.admin-tab').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.getElementById(`${tabName}-tab`).classList.add('active');
+        document.querySelector(`.admin-tab[data-tab="${tabName}"]`).classList.add('active');
+        if (tabName === 'manage') {
+            this.loadManagementGrid();
+        }
+    }
+
+    loadManagementGrid() {
+        const grid = document.getElementById('image-management-grid');
+        if (!grid) return;
+        
+        const uploadedImages = JSON.parse(localStorage.getItem(this.uploadedImagesKey)) || [];
+        
+        grid.innerHTML = uploadedImages.map(image => `
+            <div class="management-item" data-id="${image.id}">
+                <img src="${image.src}" alt="${image.title}">
+                <div class="management-actions">
+                    <button class="management-btn edit-btn" data-id="${image.id}">✏️</button>
+                    <button class="management-btn delete-btn" data-id="${image.id}">🗑️</button>
+                </div>
+            </div>
+        `).join('');
+        
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(e.target.dataset.id);
+                if (confirm('Supprimer cette image ?')) {
+                    this.deleteImage(id);
+                    this.loadManagementGrid();
+                }
+            });
+        });
+        
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(e.target.dataset.id);
+                this.openEditModal(id);
+            });
+        });
+    }
+
+    openEditModal(imageId) {
+        const uploadedImages = JSON.parse(localStorage.getItem(this.uploadedImagesKey)) || [];
+        const image = uploadedImages.find(img => img.id === imageId);
+        
+        if (!image) return;
+        
+        const modal = document.createElement('div');
+        modal.className = 'edit-modal';
+        modal.innerHTML = `
+            <div class="edit-modal-content">
+                <h3>Modifier l'image</h3>
+                <img src="${image.src}" alt="${image.title}">
+                
+                <div class="edit-form">
+                    <div class="form-group">
+                        <label>Titre</label>
+                        <input type="text" id="edit-title" value="${image.title}">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="edit-desc">${image.description}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Catégorie</label>
+                        <select id="edit-category">
+                            <option value="portraits" ${image.category === 'portraits' ? 'selected' : ''}>Portraits</option>
+                            <option value="mariages" ${image.category === 'mariages' ? 'selected' : ''}>Mariages</option>
+                            <option value="evenements" ${image.category === 'evenements' ? 'selected' : ''}>Événements</option>
+                            <option value="nature" ${image.category === 'nature' ? 'selected' : ''}>Nature</option>
+                            <option value="urbain" ${image.category === 'urbain' ? 'selected' : ''}>Urbain</option>
+                            <option value="uploaded" ${image.category === 'uploaded' ? 'selected' : ''}>Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Lieu</label>
+                        <input type="text" id="edit-location" value="${image.location}">
+                    </div>
+                    <div class="form-group">
+                        <label>Équipement</label>
+                        <input type="text" id="edit-equipment" value="${image.equipment}">
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="edit-date" value="${new Date(image.date).toISOString().split('T')[0]}">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn-primary" id="save-edit">Enregistrer</button>
+                        <button class="btn-secondary" id="cancel-edit">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        document.getElementById('save-edit').addEventListener('click', () => {
+            const updates = {
+                title: document.getElementById('edit-title').value,
+                description: document.getElementById('edit-desc').value,
+                category: document.getElementById('edit-category').value,
+                location: document.getElementById('edit-location').value,
+                equipment: document.getElementById('edit-equipment').value,
+                date: document.getElementById('edit-date').value
+            };
+            
+            this.updateImage(imageId, updates);
+            modal.remove();
+            this.loadManagementGrid();
+            loadImages();
+        });
+        
+        document.getElementById('cancel-edit').addEventListener('click', () => {
+            modal.remove();
+        });
+    }
+}
+
+
+const galleryManager = new GalleryManager();
 let currentImageIndex = 0;
 let filteredImages = [];
 let allImages = [];
@@ -8,9 +339,7 @@ let currentFilter = 'all';
 let currentView = 'grid';
 let imagesLoaded = 0;
 let totalImagesToLoad = 12;
-let isAdminMode = false;
 
-// Configuration des images de la galerie
 const galleryData = [
     {
         id: 1,
@@ -146,20 +475,16 @@ const galleryData = [
     }
 ];
 
-// Initialisation
 document.addEventListener('DOMContentLoaded', function() {
     initializeGallery();
     initializeEventListeners();
     initializeProtection();
-    initializeTheme();
     
-    // Simuler le chargement
     setTimeout(() => {
         hideLoadingScreen();
     }, 1500);
 });
 
-// Initialisation de la galerie
 function initializeGallery() {
     allImages = [...galleryData];
     filteredImages = [...allImages];
@@ -167,7 +492,6 @@ function initializeGallery() {
     updateImageCounter();
 }
 
-// Chargement des images
 function loadImages() {
     const galleryGrid = document.getElementById('gallery-grid');
     const imagesToShow = filteredImages.slice(0, totalImagesToLoad);
@@ -182,7 +506,6 @@ function loadImages() {
     updateLoadMoreButton();
 }
 
-// Création d'un élément image
 function createImageElement(image, index) {
     const div = document.createElement('div');
     div.className = 'gallery-item';
@@ -199,14 +522,11 @@ function createImageElement(image, index) {
         </div>
         <div class="gallery-category">${getCategoryName(image.category)}</div>
     `;
-    
-    // Ajouter l'événement de clic
     div.addEventListener('click', () => openImageModal(index));
     
     return div;
 }
 
-// Obtenir le nom de la catégorie
 function getCategoryName(category) {
     const categories = {
         'portraits': 'Portrait',
@@ -218,7 +538,6 @@ function getCategoryName(category) {
     return categories[category] || category;
 }
 
-// Filtrage des images
 function filterImages(category) {
     currentFilter = category;
     
@@ -228,13 +547,11 @@ function filterImages(category) {
         filteredImages = allImages.filter(image => image.category === category);
     }
     
-    // Reset du compteur d'images chargées
     totalImagesToLoad = 12;
     loadImages();
     updateFilterButtons();
 }
 
-// Mise à jour des boutons de filtre
 function updateFilterButtons() {
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
@@ -244,7 +561,6 @@ function updateFilterButtons() {
     });
 }
 
-// Changement de vue
 function changeView(view) {
     currentView = view;
     const galleryGrid = document.getElementById('gallery-grid');
@@ -263,7 +579,6 @@ function changeView(view) {
     });
 }
 
-// Tri des images
 function sortImages(sortType) {
     switch (sortType) {
         case 'recent':
@@ -279,13 +594,11 @@ function sortImages(sortType) {
     loadImages();
 }
 
-// Charger plus d'images
 function loadMoreImages() {
     totalImagesToLoad += 12;
     loadImages();
 }
 
-// Mise à jour du bouton "Charger plus"
 function updateLoadMoreButton() {
     const loadMoreBtn = document.getElementById('load-more');
     if (totalImagesToLoad >= filteredImages.length) {
@@ -295,9 +608,8 @@ function updateLoadMoreButton() {
     }
 }
 
-// Ouverture de la modal d'image
 function openImageModal(index) {
-    if (!isAdminMode) return; // Protection contre l'ouverture si pas en mode admin
+    if (!isAdminMode) return;
     
     currentImageIndex = index;
     const modal = document.getElementById('image-modal');
@@ -317,14 +629,12 @@ function openImageModal(index) {
     document.body.style.overflow = 'hidden';
 }
 
-// Fermeture de la modal
 function closeImageModal() {
     const modal = document.getElementById('image-modal');
     modal.classList.remove('active');
     document.body.style.overflow = '';
 }
 
-// Navigation dans les images
 function navigateImage(direction) {
     if (direction === 'next') {
         currentImageIndex = (currentImageIndex + 1) % filteredImages.length;
@@ -344,13 +654,11 @@ function navigateImage(direction) {
     updateNavigationButtons();
 }
 
-// Mise à jour du compteur d'images
 function updateImageCounter() {
     document.getElementById('current-image').textContent = currentImageIndex + 1;
     document.getElementById('total-images').textContent = filteredImages.length;
 }
 
-// Mise à jour des boutons de navigation
 function updateNavigationButtons() {
     const prevBtn = document.querySelector('.prev-btn');
     const nextBtn = document.querySelector('.next-btn');
@@ -359,37 +667,25 @@ function updateNavigationButtons() {
     nextBtn.disabled = currentImageIndex === filteredImages.length - 1;
 }
 
-// Initialisation des écouteurs d'événements
 function initializeEventListeners() {
-    // Filtres
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             filterImages(btn.dataset.filter);
         });
     });
-    
-    // Vues
     document.querySelectorAll('.view-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             changeView(btn.dataset.view);
         });
     });
-    
-    // Tri
     document.getElementById('sort-select').addEventListener('change', (e) => {
         sortImages(e.target.value);
     });
-    
-    // Charger plus
     document.getElementById('load-more').addEventListener('click', loadMoreImages);
-    
-    // Modal
     document.querySelector('.close-modal').addEventListener('click', closeImageModal);
     document.querySelector('.modal-backdrop').addEventListener('click', closeImageModal);
     document.querySelector('.prev-btn').addEventListener('click', () => navigateImage('prev'));
     document.querySelector('.next-btn').addEventListener('click', () => navigateImage('next'));
-    
-    // Navigation mobile
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
     
@@ -397,16 +693,12 @@ function initializeEventListeners() {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
     });
-    
-    // Fermer le menu mobile lors du clic sur un lien
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
         });
     });
-    
-    // Back to top
     const backToTop = document.getElementById('back-to-top');
     window.addEventListener('scroll', () => {
         if (window.pageYOffset > 300) {
@@ -419,11 +711,7 @@ function initializeEventListeners() {
     backToTop.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-    
-    // Gestion du thème
-    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-    
-    // Navigation au clavier
+
     document.addEventListener('keydown', (e) => {
         if (document.getElementById('image-modal').classList.contains('active')) {
             switch (e.key) {
@@ -441,76 +729,38 @@ function initializeEventListeners() {
     });
 }
 
-// Initialisation de la protection
 function initializeProtection() {
-    // Protection contre le clic droit
-    document.addEventListener('contextmenu', function(e) {
-        if (!isAdminMode) {
-            e.preventDefault();
-            showProtectionAlert();
-        }
-    });
-    
-    // Protection contre les raccourcis clavier
-    document.addEventListener('keydown', function(e) {
-        if (!isAdminMode) {
-            // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-            if (e.key === 'F12' || 
-                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
-                (e.ctrlKey && e.key === 'u')) {
+    if (!galleryManager.isAdmin) {
+        document.addEventListener('contextmenu', function(e) {
+            if (e.target.tagName === 'IMG') {
                 e.preventDefault();
                 showProtectionAlert();
             }
-        }
-    });
-    
-    // Protection contre la sélection
-    document.addEventListener('selectstart', function(e) {
-        if (!isAdminMode && e.target.classList.contains('protected-image')) {
-            e.preventDefault();
-        }
-    });
-    
-    // Protection contre le glisser-déposer
-    document.addEventListener('dragstart', function(e) {
-        if (!isAdminMode && e.target.classList.contains('protected-image')) {
-            e.preventDefault();
-        }
-    });
+        });
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+            }
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'PrintScreen' || 
+                (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+                (e.ctrlKey && e.key === 's')) {
+                e.preventDefault();
+                showProtectionAlert();
+            }
+        });
+    }
 }
 
-// Alerte de protection
 function showProtectionAlert() {
-    // Animation discrète pour indiquer la protection
     const overlay = document.getElementById('protection-overlay');
-    overlay.style.background = 'rgba(255, 0, 0, 0.1)';
+    overlay.style.background = 'rgba(231, 76, 60, 0.3)';
     setTimeout(() => {
         overlay.style.background = 'transparent';
-    }, 200);
+    }, 300);
 }
 
-// Gestion du thème
-function initializeTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeIcon(savedTheme);
-}
-
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    updateThemeIcon(newTheme);
-}
-
-function updateThemeIcon(theme) {
-    const themeIcon = document.querySelector('.theme-icon');
-    themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
-}
-
-// Masquer l'écran de chargement
 function hideLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
     loadingScreen.classList.add('hidden');
@@ -519,7 +769,6 @@ function hideLoadingScreen() {
     }, 500);
 }
 
-// Fonctions utilitaires
 function scrollToSection(sectionId) {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -527,7 +776,6 @@ function scrollToSection(sectionId) {
     }
 }
 
-// Animation d'apparition des éléments
 function observeElements() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -545,7 +793,6 @@ function observeElements() {
     });
 }
 
-// Mode administrateur (pour désactiver les protections)
 function enableAdminMode() {
     isAdminMode = true;
     console.log('Mode administrateur activé - Protections désactivées');
@@ -555,8 +802,6 @@ function disableAdminMode() {
     isAdminMode = false;
     console.log('Mode administrateur désactivé - Protections activées');
 }
-
-// Recherche d'images (fonctionnalité bonus)
 function searchImages(query) {
     if (!query) {
         filteredImages = [...allImages];
@@ -570,7 +815,6 @@ function searchImages(query) {
     loadImages();
 }
 
-// Export des fonctions pour utilisation globale
 window.galleryFunctions = {
     enableAdminMode,
     disableAdminMode,
@@ -579,3 +823,30 @@ window.galleryFunctions = {
     changeView,
     sortImages
 };
+
+function openImageModal(index) {
+    currentImageIndex = index;
+    const modal = document.getElementById('image-modal');
+    const image = filteredImages[currentImageIndex];
+    document.getElementById('modal-image').src = image.src;
+    document.getElementById('image-title').textContent = image.title;
+    document.getElementById('image-location').textContent = image.location;
+    document.getElementById('image-equipment').textContent = image.equipment;
+    document.getElementById('image-date').textContent = image.date;
+    document.getElementById('image-description').textContent = image.description;
+    updateImageCounter();
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    if (!galleryManager.isAdmin) {
+        document.querySelectorAll('.modal-image').forEach(img => {
+            img.classList.add('protected-image');
+        });
+    }
+}
+
+window.addEventListener('storage', (event) => {
+    if (event.key === 'uploadedImages') {
+        galleryManager.loadAllImages();
+        loadImages();
+    }
+});

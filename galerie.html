@@ -12,8 +12,6 @@
 </head>
 <body>
     <div id="protection-overlay" class="protection-overlay"></div>
-    
-    <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-animation">
             <div class="camera-icon">📸</div>
@@ -23,15 +21,13 @@
             </div>
         </div>
     </div>
-
-    <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
                 <span class="logo-text">Portfolio</span>
             </div>
             <div class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link">Accueil</a>
+                <a href="./index.html" class="nav-link">Accueil</a>
                 <a href="#galerie" class="nav-link active">Galerie</a>
                 <a href="index.html#apropos" class="nav-link">À propos</a>
                 <a href="index.html#contact" class="nav-link">Contact</a>
@@ -48,8 +44,6 @@
             </div>
         </div>
     </nav>
-
-    <!-- Gallery Header -->
     <section class="gallery-header">
         <div class="container">
             <div class="header-content">
@@ -58,8 +52,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Gallery Filters -->
     <section class="gallery-filters">
         <div class="container">
             <div class="filter-tabs">
@@ -85,20 +77,15 @@
             </div>
         </div>
     </section>
-
-    <!-- Gallery Grid -->
     <section id="galerie" class="gallery-section">
         <div class="container">
             <div class="gallery-grid" id="gallery-grid">
-                <!-- Images will be loaded here dynamically -->
             </div>
             <div class="load-more-container">
                 <button id="load-more" class="btn-primary">Charger plus d'images</button>
             </div>
         </div>
     </section>
-
-    <!-- Image Modal -->
     <div id="image-modal" class="image-modal">
         <div class="modal-backdrop"></div>
         <div class="image-modal-content">
@@ -133,11 +120,36 @@
             </div>
         </div>
     </div>
-
-    <!-- Back to Top -->
-    <button id="back-to-top" class="back-to-top" title="Retour en haut">↑</button>
-
-    <!-- Footer -->
+    <button id="back-to-top" class="back-to-top" title="Retour en haut"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="9" viewBox="0 0 16 9" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.00008 2.41429C0.609551 2.02376 0.609551 1.3906 1.00008 1.00008C1.3906 0.609551 2.02376 0.609551 2.41429 1.00007L8.00008 6.58586L13.5859 1.00008C13.9764 0.609551 14.6096 0.609551 15.0001 1.00008C15.3906 1.3906 15.3906 2.02376 15.0001 2.41429L8.8486 8.56576C8.37997 9.03439 7.62018 9.03439 7.15155 8.56576L1.00008 2.41429Z" fill="currentColor"></path></svg></button>
+    <div id="admin-panel" class="admin-panel">
+        <div class="admin-content">
+            <div class="admin-header">
+                <h3>Administration Galerie</h3>
+                <button class="close-admin">✕</button>
+            </div>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="upload">Upload</button>
+                <button class="admin-tab" data-tab="manage">Gérer</button>
+            </div>
+            
+            <div class="tab-content active" id="upload-tab">
+                <div class="upload-area" id="upload-area">
+                    <input type="file" id="file-input" accept="image/*" multiple style="display: none;">
+                    <p>Glissez-déposez des images ici ou cliquez pour sélectionner</p>
+                    <button id="select-files" class="btn-primary">Sélectionner des fichiers</button>
+                </div>
+                <div id="upload-progress"></div>
+            </div>
+            
+            <div class="tab-content" id="manage-tab">
+                <div class="search-bar">
+                    <input type="text" id="image-search" placeholder="Rechercher des images...">
+                </div>
+                <div id="image-management-grid" class="management-grid"></div>
+            </div>
+        </div>
+    </div>
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -161,11 +173,12 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Portfolio Photographe. Tous droits réservés.</p>
+                <p>&copy; 2025 Portfolio Photographe. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
-
+    <script src="theme-manager.js"></script>
     <script src="galerie.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

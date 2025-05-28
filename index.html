@@ -64,9 +64,6 @@
                 <a href="#gallery-preview" class="nav-link">Galerie</a>
                 <a href="#apropos" class="nav-link">À propos</a>
                 <a href="#contact" class="nav-link">Contact</a>
-                <div class="admin-link" id="admin-access">
-                    <a href="#" id="admin-btn">Admin</a>
-                </div>
             </div>
             <div class="nav-controls">
                 <button class="theme-toggle" id="theme-toggle" aria-label="Changer de thème">
@@ -100,10 +97,10 @@
             </div>
         </div>
         <div class="scroll-indicator">
-            <div class="scroll-arrow"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="9" viewBox="0 0 16 9" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.00008 2.41429C0.609551 2.02376 0.609551 1.3906 1.00008 1.00008C1.3906 0.609551 2.02376 0.609551 2.41429 1.00007L8.00008 6.58586L13.5859 1.00008C13.9764 0.609551 14.6096 0.609551 15.0001 1.00008C15.3906 1.3906 15.3906 2.02376 15.0001 2.41429L8.8486 8.56576C8.37997 9.03439 7.62018 9.03439 7.15155 8.56576L1.00008 2.41429Z" fill="currentColor"></path></svg>
         </div>
     </section>
-    <section class="gallery-preview">
+    <section class="gallery-preview" id="gallery-preview">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Aperçu de mon travail</h2>
@@ -299,10 +296,12 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Portfolio Photographe. Tous droits réservés.</p>
+                <p>&copy; 2025 Portfolio Photographe. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
+    <script src="theme-manager.js"></script>
+    <script src="galerie.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
