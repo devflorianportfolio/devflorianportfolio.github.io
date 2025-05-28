@@ -27,7 +27,7 @@
                 <span class="logo-text">Portfolio</span>
             </div>
             <div class="nav-menu" id="nav-menu">
-                <a href="./index.html" class="nav-link">Accueil</a>
+                <a onclick="window.location.href='index.html'" class="nav-link">Accueil</a>
                 <a href="#galerie" class="nav-link active">Galerie</a>
                 <a href="index.html#apropos" class="nav-link">À propos</a>
                 <a href="index.html#contact" class="nav-link">Contact</a>
@@ -63,10 +63,6 @@
                 <button class="filter-btn" data-filter="urbain">Urbain</button>
             </div>
             <div class="gallery-controls">
-                <div class="view-toggle">
-                    <button class="view-btn active" data-view="grid" title="Vue grille">⊞</button>
-                    <button class="view-btn" data-view="masonry" title="Vue mosaïque">⊟</button>
-                </div>
                 <div class="sort-options">
                     <select id="sort-select">
                         <option value="recent">Plus récents</option>
@@ -89,7 +85,7 @@
     <div id="image-modal" class="image-modal">
         <div class="modal-backdrop"></div>
         <div class="image-modal-content">
-            <button class="close-modal">✕</button>
+             <button class="close-modal" id="close-modal">✕</button>
             <div class="image-container">
                 <img id="modal-image" class="modal-image protected-image" alt="">
                 <div class="image-nav">

@@ -338,7 +338,8 @@ let allImages = [];
 let currentFilter = 'all';
 let currentView = 'grid';
 let imagesLoaded = 0;
-let totalImagesToLoad = 12;
+let totalImagesToLoad = 10;
+let isModalOpen = false;
 
 const galleryData = [
     {
@@ -609,30 +610,154 @@ function updateLoadMoreButton() {
 }
 
 function openImageModal(index) {
-    if (!isAdminMode) return;
+    console.log('Tentative d\'ouverture modal, isModalOpen:', isModalOpen);
+    console.log('Index demandé:', index, 'Images filtrées disponibles:', filteredImages.length);
+    
+    if (isModalOpen) {
+        console.log('Modal déjà ouverte, abandon');
+        return;
+    }
+    
+    // Vérifier que l'index est valide
+    if (index >= filteredImages.length || index < 0) {
+        console.error('Index invalide:', index);
+        return;
+    }
+    
+    isModalOpen = true;
+    console.log('Ouverture modal, isModalOpen maintenant:', isModalOpen);
     
     currentImageIndex = index;
     const modal = document.getElementById('image-modal');
     const image = filteredImages[index];
     
-    document.getElementById('modal-image').src = image.src;
-    document.getElementById('image-title').textContent = image.title;
-    document.getElementById('image-location').textContent = image.location;
-    document.getElementById('image-equipment').textContent = image.equipment;
-    document.getElementById('image-date').textContent = image.date;
-    document.getElementById('image-description').textContent = image.description;
+    console.log('Image à afficher:', image);
     
-    updateImageCounter();
-    updateNavigationButtons();
-    
+    // Attendre que le modal soit visible avant de charger l'image
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    
+    // Utiliser un petit délai pour s'assurer que le DOM est prêt
+    setTimeout(() => {
+        const modalImage = document.getElementById('modal-image');
+        const imageTitle = document.getElementById('image-title');
+        const imageLocation = document.getElementById('image-location');
+        const imageEquipment = document.getElementById('image-equipment');
+        const imageDate = document.getElementById('image-date');
+        const imageDescription = document.getElementById('image-description');
+        
+        console.log('Éléments DOM trouvés:', {
+            modalImage: !!modalImage,
+            imageTitle: !!imageTitle,
+            imageLocation: !!imageLocation,
+            imageEquipment: !!imageEquipment,
+            imageDate: !!imageDate,
+            imageDescription: !!imageDescription
+        });
+        
+        if (modalImage) {
+            modalImage.src = image.src;
+            modalImage.alt = image.title;
+            console.log('Image src définie:', image.src);
+        }
+        
+        if (imageTitle) imageTitle.textContent = image.title;
+        if (imageLocation) imageLocation.textContent = image.location || 'Non spécifié';
+        if (imageEquipment) imageEquipment.textContent = image.equipment || 'Non spécifié';
+        if (imageDate) imageDate.textContent = image.date || 'Non spécifié';
+        if (imageDescription) imageDescription.textContent = image.description || '';
+        
+        updateImageCounter();
+        updateNavigationButtons();
+        
+        if (!galleryManager.isAdmin) {
+            document.querySelectorAll('.modal-image').forEach(img => {
+                img.classList.add('protected-image');
+            });
+        }
+    }, 10);
 }
+
+document.addEventListener('click', function(e) {
+    // Fermer le modal avec la croix
+    if (e.target.classList.contains('close-modal') || e.target.closest('.close-modal')) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Clic sur fermer modal');
+        closeImageModal();
+        return;
+    }
+    
+    // Fermer le modal en cliquant sur le backdrop
+    if (e.target.classList.contains('modal-backdrop')) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Clic sur backdrop');
+        closeImageModal();
+        return;
+    }
+    
+    // Navigation dans le modal
+    if (e.target.classList.contains('prev-btn') || e.target.closest('.prev-btn')) {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateImage('prev');
+        return;
+    }
+    
+    if (e.target.classList.contains('next-btn') || e.target.closest('.next-btn')) {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateImage('next');
+        return;
+    }
+});
 
 function closeImageModal() {
     const modal = document.getElementById('image-modal');
     modal.classList.remove('active');
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.documentElement.style.overflow = '';
+    isModalOpen = false;
+    modal.offsetHeight;
+    
+    console.log('Modal fermée correctement, isModalOpen:', isModalOpen);
+}
+
+function initializeModalEventListeners() {
+    const modal = document.getElementById('image-modal');
+    const closeBtn = document.getElementById('close-modal');
+    const backdrop = modal.querySelector('.modal-backdrop');
+    
+    // Event listeners directs pour plus de fiabilité
+    closeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Fermeture via bouton direct');
+        closeImageModal();
+    });
+    
+    backdrop.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Fermeture via backdrop direct');
+        closeImageModal();
+    });
+    
+    // Navigation
+    modal.querySelector('.prev-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateImage('prev');
+    });
+    
+    modal.querySelector('.next-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateImage('next');
+    });
 }
 
 function navigateImage(direction) {
@@ -668,24 +793,32 @@ function updateNavigationButtons() {
 }
 
 function initializeEventListeners() {
+    // Initialiser les event listeners du modal
+    initializeModalEventListeners();
+    
+    // Filtres
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             filterImages(btn.dataset.filter);
         });
     });
+    
+    // Vues
     document.querySelectorAll('.view-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             changeView(btn.dataset.view);
         });
     });
+    
+    // Tri
     document.getElementById('sort-select').addEventListener('change', (e) => {
         sortImages(e.target.value);
     });
+    
+    // Charger plus
     document.getElementById('load-more').addEventListener('click', loadMoreImages);
-    document.querySelector('.close-modal').addEventListener('click', closeImageModal);
-    document.querySelector('.modal-backdrop').addEventListener('click', closeImageModal);
-    document.querySelector('.prev-btn').addEventListener('click', () => navigateImage('prev'));
-    document.querySelector('.next-btn').addEventListener('click', () => navigateImage('next'));
+    
+    // Navigation mobile
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
     
@@ -693,12 +826,15 @@ function initializeEventListeners() {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
     });
+    
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
         });
     });
+    
+    // Retour en haut
     const backToTop = document.getElementById('back-to-top');
     window.addEventListener('scroll', () => {
         if (window.pageYOffset > 300) {
@@ -712,6 +848,7 @@ function initializeEventListeners() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
+    // Événements clavier
     document.addEventListener('keydown', (e) => {
         if (document.getElementById('image-modal').classList.contains('active')) {
             switch (e.key) {
@@ -728,6 +865,7 @@ function initializeEventListeners() {
         }
     });
 }
+
 
 function initializeProtection() {
     if (!galleryManager.isAdmin) {
@@ -823,26 +961,6 @@ window.galleryFunctions = {
     changeView,
     sortImages
 };
-
-function openImageModal(index) {
-    currentImageIndex = index;
-    const modal = document.getElementById('image-modal');
-    const image = filteredImages[currentImageIndex];
-    document.getElementById('modal-image').src = image.src;
-    document.getElementById('image-title').textContent = image.title;
-    document.getElementById('image-location').textContent = image.location;
-    document.getElementById('image-equipment').textContent = image.equipment;
-    document.getElementById('image-date').textContent = image.date;
-    document.getElementById('image-description').textContent = image.description;
-    updateImageCounter();
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    if (!galleryManager.isAdmin) {
-        document.querySelectorAll('.modal-image').forEach(img => {
-            img.classList.add('protected-image');
-        });
-    }
-}
 
 window.addEventListener('storage', (event) => {
     if (event.key === 'uploadedImages') {

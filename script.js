@@ -6,8 +6,8 @@ class SecurityManager {
         this.blockStateKey = 'portfolio_block_state';
         this.sessionKey = 'portfolio_session_id';
         this.fingerprintKey = 'portfolio_fingerprint';
-        this.blockDuration = 10 * 60 * 1000; // 10 minutes
-        this.adminIPs = ['192.168.10.27', '86.238.222.34']; // IPs autorisées
+        this.blockDuration = 0 * 60 * 1000; // 10 minutes
+        this.adminIPs = ['192.168.10.27', '86.238.222.34', '172.16.11.143', '89.87.183.159']; // IPs autorisées
         this.isAdmin = false;
         this.userInfo = {};
         this.fingerprint = null;
@@ -269,14 +269,8 @@ class SecurityManager {
     
     setupRefreshProtection() {
         if (this.isAdmin) return;
-
-        // Générer un ID de session unique
         this.sessionId = this.generateSessionId();
-        
-        // Vérifier les tentatives de refresh/contournement
         this.detectRefreshAttempt();
-        
-        // Empêcher le refresh/F5
         window.addEventListener('beforeunload', (e) => {
             if (this.isBlocked()) {
                 e.preventDefault();
@@ -316,7 +310,7 @@ class SecurityManager {
         document.addEventListener('keydown', (e) => {
             if (this.isBlocked()) {
                 const blockedKeys = [
-                    'F5', 'F11', 'F12',
+                    'F11', 'F12',
                     e.ctrlKey && ['r', 'l', 't', 'n', 'w'].includes(e.key.toLowerCase()),
                     e.altKey && ['F4', 'Tab'].includes(e.key),
                     e.ctrlKey && e.shiftKey && ['r', 't', 'n'].includes(e.key.toLowerCase())
@@ -400,7 +394,6 @@ class SecurityManager {
             
             const blockedShortcuts = [
                 e.key === 'F12',
-                e.key === 'F5',
                 e.ctrlKey && e.key === 'r',
                 e.ctrlKey && e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase()),
                 e.ctrlKey && ['u', 's', 'p'].includes(e.key.toLowerCase())
@@ -969,6 +962,7 @@ if (!String.prototype.hashCode) {
     };
 }
 
+//sessionStorage.clear(); localStorage.clear(); document.cookie.split(";").forEach(c => document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"));  location.reload();
 // Initialisation automatique
 const securityManager = new SecurityManager();
 

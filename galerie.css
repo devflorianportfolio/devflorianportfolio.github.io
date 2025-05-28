@@ -21,6 +21,9 @@
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --border-radius: 10px;
     --border-radius-small: 5px;
+    --gap-small: 8px;
+    --gap-medium: 16px;
+    --gap-large: 32px;
 }
 
 [data-theme="dark"] {
@@ -229,134 +232,141 @@ body {
 }
 
 .gallery-header {
-    margin-top: 80px;
-    padding: 4rem 0 2rem;
+    margin-top: 65px;
+    padding: var(--gap-large) 0;
     text-align: center;
-    background: var(--surface-color);
 }
 
 .gallery-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 300;
     color: var(--text-color);
-    margin-bottom: 1rem;
+    margin-bottom: var(--gap-small);
+    letter-spacing: 1px;
 }
 
 .gallery-subtitle {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     color: var(--text-light);
-    max-width: 600px;
-    margin: 0 auto;
+    font-weight: 400;
+    letter-spacing: 0.3px;
 }
 
+/* Gallery Filters - Épuré */
 .gallery-filters {
-    padding: 2rem 0;
+    padding: var(--gap-medium) 0;
     background: var(--background-color);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
-    top: 80px;
+    top: 65px;
     z-index: 100;
 }
 
 .filter-tabs {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: var(--gap-medium);
+    margin-bottom: var(--gap-medium);
     flex-wrap: wrap;
 }
 
 .filter-btn {
-    padding: 0.8rem 1.5rem;
-    border: 2px solid var(--border-color);
-    background: var(--background-color);
-    color: var(--text-color);
-    border-radius: 10px;
+    padding: var(--gap-small) var(--gap-medium);
+    border: none;
+    background: transparent;
+    color: var(--text-light);
     cursor: pointer;
     transition: var(--transition-smooth);
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 5px;
 }
 
 .filter-btn:hover,
 .filter-btn.active {
-    border-color: var(--accent-color);
-    background: var(--accent-color);
-    color: white;
-    transform: translateY(-2px);
+    color: var(--accent-color);
 }
 
 .gallery-controls {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    max-width: 800px;
-    margin: 0 auto;
+    gap: var(--gap-large);
 }
 
 .view-toggle {
     display: flex;
-    gap: 0.5rem;
+    gap: var(--gap-small);
 }
 
 .view-btn {
-    padding: 0.5rem;
+    padding: var(--gap-small);
     border: 1px solid var(--border-color);
     background: var(--background-color);
-    color: var(--text-color);
-    border-radius: var(--border-radius-small);
+    color: var(--text-light);
     cursor: pointer;
     transition: var(--transition-smooth);
-    font-size: 1.2rem;
+    font-size: 0.9rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .view-btn:hover,
 .view-btn.active {
     background: var(--accent-color);
-    color: white;
+    color: var(--background-color);
     border-color: var(--accent-color);
 }
 
 .sort-options select {
-    padding: 0.5rem 1rem;
+    padding: var(--gap-small) var(--gap-medium);
     border: 1px solid var(--border-color);
     background: var(--background-color);
     color: var(--text-color);
-    border-radius: var(--border-radius-small);
     cursor: pointer;
+    font-size: 0.85rem;
+    appearance: none;
+    padding-right: var(--gap-large);
 }
 
+/* Gallery Grid - Style épuré */
 .gallery-section {
-    padding: 5rem 0;
-    min-height: 100vh;
+    padding: var(--gap-large) 0;
+    min-height: 30vh;
+    margin-bottom: 10px;
 }
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 3rem;
-    margin-bottom: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--gap-small);
+    margin-bottom: var(--gap-large);
     transition: var(--transition-smooth);
 }
 
 .gallery-grid.masonry {
-    columns: 3;
-    column-gap: 2rem;
+    columns: 4;
+    column-gap: var(--gap-small);
 }
 
 .gallery-item {
     position: relative;
-    border-radius: var(--border-radius);
     overflow: hidden;
     cursor: pointer;
     transition: var(--transition-smooth);
     break-inside: avoid;
-    margin-bottom: 2rem;
+    margin-bottom: var(--gap-small);
+    background: var(--surface-color);
 }
 
 .gallery-item:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-heavy);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
 }
 
 .gallery-item img {
@@ -367,21 +377,22 @@ body {
 }
 
 .gallery-item:hover img {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
+/* Overlay simplifié */
 .gallery-overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7));
+    background: rgba(0,0,0,0.3);
     opacity: 0;
     transition: var(--transition-smooth);
     display: flex;
     align-items: flex-end;
-    padding: 1.5rem;
+    padding: var(--gap-medium);
 }
 
 .gallery-item:hover .gallery-overlay {
@@ -393,32 +404,39 @@ body {
 }
 
 .gallery-info h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    margin-bottom: var(--gap-small);
+    font-weight: 400;
+    letter-spacing: 0.3px;
 }
 
 .gallery-info p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     opacity: 0.8;
 }
 
 .gallery-category {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
-    background: var(--accent-color);
-    color: white;
-    padding: 0.3rem 0.8rem;
-    border-radius: 5px;
-    font-size: 0.8rem;
+    top: var(--gap-medium);
+    left: var(--gap-medium);
+    background: rgba(255,255,255,0.9);
+    color: #ffffff;
+    padding: 4px var(--gap-small);
+    font-size: 0.7rem;
     font-weight: 500;
     opacity: 0;
     transition: var(--transition-smooth);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+[data-theme="dark"] .gallery-category {
+    background: var(--accent-color);
+    color: var(--primary-color);
 }
 
 .gallery-item:hover .gallery-category {
     opacity: 1;
-    transform: translateY(-5px);
 }
 
 /* Load More */

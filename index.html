@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Photographe Professionnel</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="stylestest.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="robots" content="noindex, nofollow">
 </head>
 <body>
@@ -100,13 +101,22 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="9" viewBox="0 0 16 9" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.00008 2.41429C0.609551 2.02376 0.609551 1.3906 1.00008 1.00008C1.3906 0.609551 2.02376 0.609551 2.41429 1.00007L8.00008 6.58586L13.5859 1.00008C13.9764 0.609551 14.6096 0.609551 15.0001 1.00008C15.3906 1.3906 15.3906 2.02376 15.0001 2.41429L8.8486 8.56576C8.37997 9.03439 7.62018 9.03439 7.15155 8.56576L1.00008 2.41429Z" fill="currentColor"></path></svg>
         </div>
     </section>
-    <section class="gallery-preview" id="gallery-preview">
+    <section class="gallery-section" id="gallery-preview">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Aperçu de mon travail</h2>
                 <p class="section-subtitle">Une sélection de mes meilleures créations</p>
             </div>
-            <div class="preview-grid" id="preview-grid">
+            <div class="gallery-grid" id="preview-grid">
+                <div class="gallery-item">
+                    <img src="images/1.jpg">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/1.jpg">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/1.jpg">
+                </div>
             </div>
             <div class="preview-cta">
                 <button class="btn-primary" onclick="window.location.href='galerie.html'">Voir toute la galerie</button>
@@ -139,7 +149,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=600&fit=crop" alt="Photographe" class="protected-image">
+                    <img src="images/1.jpg" alt="Photographe" class="protected-image">
                     <div class="image-decoration"></div>
                 </div>
             </div>
@@ -175,35 +185,17 @@
                         </div>
                     </div>
                     <div class="social-links">
-                        <a href="#" class="social-link">Instagram</a>
-                        <a href="#" class="social-link">Facebook</a>
-                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link linkedin">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
                     </div>
                 </div>
-                <form class="contact-form" id="contact-form">
-                    <div class="form-group">
-                        <input type="text" id="name" name="name" placeholder="Votre nom" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" placeholder="Votre email" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" id="phone" name="phone" placeholder="Votre téléphone">
-                    </div>
-                    <div class="form-group">
-                        <select id="service" name="service" required>
-                            <option value="">Type de prestation</option>
-                            <option value="portrait">Portrait</option>
-                            <option value="mariage">Mariage</option>
-                            <option value="evenement">Événement</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="message" name="message" placeholder="Décrivez votre projet" rows="5" required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary">Envoyer le message</button>
-                </form>
             </div>
         </div>
     </section>
