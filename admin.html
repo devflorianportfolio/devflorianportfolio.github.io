@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .auth-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .auth-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            backdrop-filter: blur(20px);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .auth-box h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .admin-panel {
+            display: none;
+            min-height: 100vh;
+            background: #f8f9fa;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .logout-btn, .save-btn, .push-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .save-btn {
+            background: #27ae60;
+            color: white;
+            margin-right: 10px;
+        }
+
+        .push-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        .admin-content {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .section-content {
+            padding: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .image-upload {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .image-upload:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .image-upload input {
+            display: none;
+        }
+
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 10px auto;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .gallery-manager {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item-editor {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .item-preview {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .delete-item {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .add-item {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .status-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .status-message.success {
+            background: #27ae60;
+        }
+
+        .status-message.error {
+            background: #e74c3c;
+        }
+
+        .status-message.show {
+            transform: translateX(0);
+        }
+
+        .ip-whitelist {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .current-ip {
+            font-family: monospace;
+            background: #333;
+            color: #0f0;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container" id="authContainer">
+        <div class="auth-box">
+            <h2><i class="fas fa-shield-alt"></i> Accès Administrateur</h2>
+            <form id="authForm">
+                <div class="form-group">
+                    <label>Email/Pseudo</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-sign-in-alt"></i> Se connecter
+                </button>
+                <div class="error-message" id="errorMessage"></div>
+            </form>
+            <div class="ip-whitelist">
+                <strong>IP autorisée:</strong> <span class="current-ip" id="currentIP">Chargement...</span>
+            </div>
+        </div>
+    </div>
+    <div class="admin-panel" id="adminPanel">
+        <header class="admin-header">
+            <h1 class="admin-title"><i class="fas fa-cogs"></i> Administration Portfolio</h1>
+            <div>
+                <button class="save-btn" onclick="loadFromJSON()" style="margin-right: 10px;">
+                    <i class="fas fa-upload"></i> Importer JSON
+                </button>
+                <button class="save-btn" id="saveBtn">
+                    <i class="fas fa-save"></i> Sauvegarder
+                </button>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </div>
+        </header>
+        <div class="admin-content">
+            <div class="section">
+                <div class="section-header">
+                    <i class="fas fa-info-circle"></i> Informations Générales
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Titre du site</label>
+                            <input type="text" id="siteTitle" value="Portfolio">
+                        </div>
+                        <div class="input-group">
+                            <label>Logo (Emoji)</label>
+                            <input type="text" id="siteLogo" value="📸">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Description meta</label>
+                        <textarea id="metaDescription" placeholder="Description du portfolio..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <i class="fas fa-user"></i> Section À Propos
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Nom</label>
+                            <input type="text" id="aboutName" value="À propos">
+                        </div>
+                        <div class="input-group">
+                            <label>Sous-titre</label>
+                            <input type="text" id="aboutSubtitle" value="Capturer l'émotion, révéler l'essence">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Description</label>
+                        <textarea id="aboutDescription">Photographe passionné depuis plus de 8 ans, je me spécialise dans le portrait artistique et la photographie conceptuelle. Mon approche se concentre sur la capture de moments authentiques et l'expression de l'individualité de chaque sujet.</textarea>
+                    </div>
+                    <div class="input-group">
+                        <label>Photo de profil</label>
+                        <div class="image-upload" onclick="document.getElementById('profileImage').click()">
+                            <i class="fas fa-camera" style="font-size: 24px; color: #ddd;"></i>
+                            <p>Cliquez pour changer la photo</p>
+                            <input type="file" id="profileImage" accept="image/*">
+                            <img class="image-preview" id="profilePreview">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <i class="fas fa-envelope"></i> Informations de Contact
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Email</label>
+                            <input type="email" id="contactEmail" value="hello@portfolio.com">
+                        </div>
+                        <div class="input-group">
+                            <label>Téléphone</label>
+                            <input type="tel" id="contactPhone" value="+33 1 23 45 67 89">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Adresse</label>
+                        <input type="text" id="contactAddress" value="Paris, France">
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <i class="fas fa-images"></i> Galerie Work
+                </div>
+                <div class="section-content">
+                    <button class="add-item" onclick="addGalleryItem('work')">
+                        <i class="fas fa-plus"></i> Ajouter un élément
+                    </button>
+                    <div class="gallery-manager" id="workGallery">
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <i class="fas fa-portrait"></i> Galerie Portraits
+                </div>
+                <div class="section-content">
+                    <button class="add-item" onclick="addGalleryItem('portraits')">
+                        <i class="fas fa-plus"></i> Ajouter un portrait
+                    </button>
+                    <div class="gallery-manager" id="portraitsGallery">
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <i class="fas fa-trophy"></i> Récompenses et Reconnaissance
+                </div>
+                <div class="section-content">
+                    <button class="add-item" onclick="addAward()">
+                        <i class="fas fa-plus"></i> Ajouter une récompense
+                    </button>
+                    <div id="awardsContainer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="status-message" id="statusMessage"></div>
+    <script>
+        const ADMIN_CONFIG = {
+            allowedIPs: '86.238.222.34',
+            credentials: {
+                'admin@portfolio.com': 'SecurePassword123!',
+                'admin': 'AdminPass2024!'
+            },
+        };
+        let portfolioData = {
+            general: {
+                title: 'Portfolio',
+                logo: '📸',
+                description: ''
+            },
+            about: {
+                name: 'À propos',
+                subtitle: 'Capturer l\'émotion, révéler l\'essence',
+                description: 'Photographe passionné depuis plus de 8 ans...',
+                profileImage: ''
+            },
+            contact: {
+                email: 'hello@portfolio.com',
+                phone: '+33 1 23 45 67 89',
+                address: 'Paris, France'
+            },
+            work: [],
+            portraits: [],
+            awards: []
+        };
+        async function checkIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                const currentIP = data.ip;
+                document.getElementById('currentIP').textContent = currentIP;
+                if (!ADMIN_CONFIG.allowedIPs.includes(currentIP)) {
+                    return false;
+                }
+                return true;
+            } catch (error) {
+                console.error('Erreur vérification IP:', error);
+                return false;
+            }
+        }
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const ipValid = await checkIP();
+            if (!ipValid) {
+                showError('Accès refusé : IP non autorisée');
+                return;
+            }
+            if (ADMIN_CONFIG.credentials[username] === password) {
+                document.getElementById('authContainer').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadPortfolioData();
+                showStatus('Connexion réussie !', 'success');
+            } else {
+                showError('Identifiants incorrects');
+            }
+        });
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            setTimeout(() => {
+                errorEl.style.display = 'none';
+            }, 5000);
+        }
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message ${type} show`;
+            setTimeout(() => {
+                statusEl.classList.remove('show');
+            }, 3000);
+        }
+        function loadFromJSON() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const jsonData = JSON.parse(e.target.result);
+                            portfolioData = jsonData;
+                            populateForm();
+                            loadGalleries();
+                            loadAwards();
+                            showStatus('Données importées depuis JSON !', 'success');
+                        } catch (error) {
+                            showStatus('Erreur lors de l\'import JSON: ' + error.message, 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+        function populateForm() {
+            document.getElementById('siteTitle').value = portfolioData.general.title;
+            document.getElementById('siteLogo').value = portfolioData.general.logo;
+            document.getElementById('metaDescription').value = portfolioData.general.description;
+            
+            document.getElementById('aboutName').value = portfolioData.about.name;
+            document.getElementById('aboutSubtitle').value = portfolioData.about.subtitle;
+            document.getElementById('aboutDescription').value = portfolioData.about.description;
+            
+            document.getElementById('contactEmail').value = portfolioData.contact.email;
+            document.getElementById('contactPhone').value = portfolioData.contact.phone;
+            document.getElementById('contactAddress').value = portfolioData.contact.address;
+        }
+        function loadGalleries() {
+            loadGallery('work');
+            loadGallery('portraits');
+        }
+        function loadGallery(type) {
+            const container = document.getElementById(`${type}Gallery`);
+            container.innerHTML = '';
+            
+            portfolioData[type].forEach((item, index) => {
+                const itemEl = createGalleryItemEditor(item, type, index);
+                container.appendChild(itemEl);
+            });
+        }
+        function createGalleryItemEditor(item, type, index) {
+            const div = document.createElement('div');
+            div.className = 'gallery-item-editor';
+            div.innerHTML = `
+                <img src="${item.image}" class="item-preview" alt="${item.alt}">
+                <div class="input-group">
+                    <label>URL de l'image</label>
+                    <input type="url" value="${item.image}" onchange="updateGalleryItem('${type}', ${index}, 'image', this.value)">
+                </div>
+                <div class="input-group">
+                    <label>Texte alternatif</label>
+                    <input type="text" value="${item.alt}" onchange="updateGalleryItem('${type}', ${index}, 'alt', this.value)">
+                </div>
+                <div class="input-group">
+                    <label>Catégorie</label>
+                    <input type="text" value="${item.category}" onchange="updateGalleryItem('${type}', ${index}, 'category', this.value)">
+                </div>
+                <button class="delete-item" onclick="deleteGalleryItem('${type}', ${index})">
+                    <i class="fas fa-trash"></i> Supprimer
+                </button>
+            `;
+            return div;
+        }
+        function addGalleryItem(type) {
+            const newItem = {
+                image: 'https://picsum.photos/500/600?random=' + Date.now(),
+                alt: 'Nouvelle image',
+                category: 'Nouveau'
+            };
+            portfolioData[type].push(newItem);
+            loadGallery(type);
+        }
+        function updateGalleryItem(type, index, field, value) {
+            portfolioData[type][index][field] = value;
+            if (field === 'image') {
+                const img = event.target.closest('.gallery-item-editor').querySelector('.item-preview');
+                img.src = value;
+            }
+        }
+        function deleteGalleryItem(type, index) {
+            if (confirm('Supprimer cet élément ?')) {
+                portfolioData[type].splice(index, 1);
+                loadGallery(type);
+            }
+        }
+        function loadAwards() {
+            const container = document.getElementById('awardsContainer');
+            container.innerHTML = '';
+            
+            portfolioData.awards.forEach((award, index) => {
+                const awardEl = createAwardEditor(award, index);
+                container.appendChild(awardEl);
+            });
+        }
+        function createAwardEditor(award, index) {
+            const div = document.createElement('div');
+            div.className = 'gallery-item-editor';
+            div.innerHTML = `
+                <div class="input-group">
+                    <label>Titre</label>
+                    <input type="text" value="${award.title}" onchange="updateAward(${index}, 'title', this.value)">
+                </div>
+                <div class="input-group">
+                    <label>Description</label>
+                    <input type="text" value="${award.description}" onchange="updateAward(${index}, 'description', this.value)">
+                </div>
+                <button class="delete-item" onclick="deleteAward(${index})">
+                    <i class="fas fa-trash"></i> Supprimer
+                </button>
+            `;
+            return div;
+        }
+        function addAward() {
+            const newAward = {
+                title: 'Nouvelle récompense',
+                description: 'Description de la récompense'
+            };
+            portfolioData.awards.push(newAward);
+            loadAwards();
+        }
+        function updateAward(index, field, value) {
+            portfolioData.awards[index][field] = value;
+        }
+        function deleteAward(index) {
+            if (confirm('Supprimer cette récompense ?')) {
+                portfolioData.awards.splice(index, 1);
+                loadAwards();
+            }
+        }
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            portfolioData.general.title = document.getElementById('siteTitle').value;
+            portfolioData.general.logo = document.getElementById('siteLogo').value;
+            portfolioData.general.description = document.getElementById('metaDescription').value;
+            portfolioData.about.name = document.getElementById('aboutName').value;
+            portfolioData.about.subtitle = document.getElementById('aboutSubtitle').value;
+            portfolioData.about.description = document.getElementById('aboutDescription').value;
+            portfolioData.contact.email = document.getElementById('contactEmail').value;
+            portfolioData.contact.phone = document.getElementById('contactPhone').value;
+            portfolioData.contact.address = document.getElementById('contactAddress').value;
+            localStorage.setItem('portfolioData', JSON.stringify(portfolioData));
+            localStorage.setItem('portfolioDataForExport', JSON.stringify(portfolioData));
+            generateUpdatedHTML();
+            showStatus('Données sauvegardées et JSON exporté !', 'success');
+        });
+        function generateUpdatedHTML() {
+            const jsonData = JSON.stringify(portfolioData, null, 2);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'portfolio-data.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            console.log('JSON exporté:', portfolioData);
+            showStatus('Fichier JSON généré pour GitHub !', 'success');
+        }
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            if (confirm('Vous déconnecter ?')) {
+                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('authContainer').style.display = 'flex';
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            }
+        });
+        document.getElementById('profileImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('profilePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    portfolioData.about.profileImage = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'C') ||
+                (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            checkIP();
+        });
+    </script>
+</body>
+</html>

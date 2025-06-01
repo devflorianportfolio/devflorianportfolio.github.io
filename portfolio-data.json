@@ -1,0 +1,88 @@
+{
+  "general": {
+    "title": "Portfolio",
+    "logo": "📸",
+    "description": "Portfolio de photographie artistique et portrait"
+  },
+  "about": {
+    "name": "À propos",
+    "subtitle": "Capturer l'émotion, révéler l'essence",
+    "description": "Photographe passionné depuis plus de 8 ans, je me spécialise dans le portrait artistique et la photographie conceptuelle. Mon approche se concentre sur la capture de moments authentiques et l'expression de l'individualité de chaque sujet.",
+    "profileImage": "https://i.ibb.co/6RwgknT8/494579273-9569905496453358-4805905556807423817-n.jpg"
+  },
+  "contact": {
+    "email": "florian@contact.com",
+    "phone": "+33 1 23 45 67 89",
+    "address": "Paris, France"
+  },
+  "work": [
+    {
+      "image": "https://i.ibb.co/6RwgknT8/494579273-9569905496453358-4805905556807423817-n.jpg",
+      "alt": "Portrait artistique",
+      "category": "Portrait"
+    },
+    {
+      "image": "https://i.ibb.co/39gndyfL/494575252-1153428473205755-5523850351273621540-n.jpg",
+      "alt": "Portrait artistique",
+      "category": "Portrait"
+    },
+    {
+      "image": "https://i.ibb.co/JRMQQcHD/494575517-1656921818293353-5467735360573365563-n.jpg",
+      "alt": "Portrait artistique",
+      "category": "Portrait"
+    },
+    {
+      "image": "https://i.ibb.co/99743J6Z/494577123-1222164252914950-2187654643705966028-n.jpg",
+      "alt": "Portrait artistique",
+      "category": "Portrait"
+    },
+    {
+      "image": "https://picsum.photos/800/500?random=5",
+      "alt": "Image générer auto",
+      "category": "Auto"
+    },
+    {
+      "image": "https://picsum.photos/500/600?random=6",
+      "alt": "Image générer auto",
+      "category": "Auto"
+    },
+    {
+      "image": "https://picsum.photos/500/600?random=7",
+      "alt": "Image générer auto",
+      "category": "Auto"
+    },
+    {
+      "image": "https://picsum.photos/500/600?random=8",
+      "alt": "Image générer auto",
+      "category": "Auto"
+    }
+  ],
+  "portraits": [
+    {
+      "image": "https://i.ibb.co/6RwgknT8/494579273-9569905496453358-4805905556807423817-n.jpg",
+      "alt": "Portrait",
+      "category": "Street"
+    },
+    {
+      "image": "https://i.ibb.co/39gndyfL/494575252-1153428473205755-5523850351273621540-n.jpg",
+      "alt": "Portrait",
+      "category": "Duo"
+    },
+    {
+      "image": "https://i.ibb.co/JRMQQcHD/494575517-1656921818293353-5467735360573365563-n.jpg",
+      "alt": "Portrait",
+      "category": "Concert"
+    },
+    {
+      "image": "https://i.ibb.co/99743J6Z/494577123-1222164252914950-2187654643705966028-n.jpg",
+      "alt": "Portrait",
+      "category": "Street"
+    }
+  ],
+  "awards": [
+    {
+      "title": "Concert",
+      "description": "Je sais pas quoi mettre"
+    }
+  ]
+}
