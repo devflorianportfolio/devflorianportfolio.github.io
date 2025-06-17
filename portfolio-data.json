@@ -15,6 +15,25 @@
     "phone": "+33 1 23 45 67 89",
     "address": "Paris, France"
   },
+  "social": {
+    "instagram": "https://instagram.com/toncompte",
+    "twitter": "https://twitter.com/toncompte",
+    "linkedin": "https://linkedin.com/in/toncompte"
+  },
+  "skills": [
+    {
+      "title": "Portrait Artistique",
+      "description": "Révéler la personnalité unique de chaque individu à travers des compositions réfléchies et un éclairage maîtrisé."
+    },
+    {
+      "title": "Photographie de Mode",
+      "description": "Collaboration avec des créateurs pour donner vie à leurs visions artistiques à travers l'image."
+    },
+    {
+      "title": "Événementiel",
+      "description": "Capturer l'essence des moments importants avec discrétion et créativité."
+    }
+  ],
   "work": [
     {
       "image": "https://i.ibb.co/6RwgknT8/494579273-9569905496453358-4805905556807423817-n.jpg",
@@ -35,26 +54,6 @@
       "image": "https://i.ibb.co/99743J6Z/494577123-1222164252914950-2187654643705966028-n.jpg",
       "alt": "Portrait artistique",
       "category": "Portrait"
-    },
-    {
-      "image": "https://picsum.photos/800/500?random=5",
-      "alt": "Image générer auto",
-      "category": "Auto"
-    },
-    {
-      "image": "https://picsum.photos/500/600?random=6",
-      "alt": "Image générer auto",
-      "category": "Auto"
-    },
-    {
-      "image": "https://picsum.photos/500/600?random=7",
-      "alt": "Image générer auto",
-      "category": "Auto"
-    },
-    {
-      "image": "https://picsum.photos/500/600?random=8",
-      "alt": "Image générer auto",
-      "category": "Auto"
     }
   ],
   "portraits": [

@@ -260,25 +260,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="skills-grid">
-                    <div class="skill-card">
-                        <div class="skill-card-content">
-                            <h3>Portrait Artistique</h3>
-                            <p>Révéler la personnalité unique de chaque individu à travers des compositions réfléchies et un éclairage maîtrisé.</p>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-content">
-                            <h3>Photographie de Mode</h3>
-                            <p>Collaboration avec des créateurs pour donner vie à leurs visions artistiques à travers l'image.</p>
-                        </div>
-                    </div>
-                    <div class="skill-card">
-                        <div class="skill-card-content">
-                            <h3>Événementiel</h3>
-                            <p>Capturer l'essence des moments importants avec discrétion et créativité.</p>
-                        </div>
-                    </div>
+                <div class="skills-grid" id="skillsGrid">
                 </div>
                 <div class="contact-info">
                     <h3>Contact</h3>
@@ -288,7 +270,7 @@
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
-                        <span id="contactPhone">+33 1 23 45 67 89</span>
+                        <span id="contactPhone">+33 1 23 55 67 89</span>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
@@ -305,10 +287,7 @@
                 <a href="#portraits">Portraits</a>
                 <a href="#about">À propos</a>
             </nav>
-            <div class="footer-social">
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <div class="footer-social" id="footerSocial">
             </div>
             <div class="footer-bottom">
                 <p>© 2025 Florian - Portfolio. Tous droits réservés.</p>
@@ -322,7 +301,7 @@
         const portfolioConfig = {
             general: {
                 title: 'Florian - Portfolio',
-                logo: '📸 Florian',
+                logo: '📸',
                 description: 'Portfolio de photographie artistique et portrait'
             },
             about: {
@@ -336,6 +315,8 @@
                 phone: '+33 1 23 45 67 89',
                 address: 'Paris, France'
             },
+            social: {},
+            skills: [],
             work: [
                 { image: 'https://picsum.photos/800/600?random=1', alt: 'Architecture moderne', category: 'Architecture' },
                 { image: 'https://picsum.photos/600/800?random=2', alt: 'Portrait artistique', category: 'Portrait' },
@@ -355,6 +336,12 @@
                 { image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop', alt: 'Portrait homme moderne', category: 'Moderne' },
                 { image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&h=700&fit=crop', alt: 'Portrait femme glamour', category: 'Glamour' },
                 { image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop', alt: 'Portrait professionnel', category: 'Pro' }
+            ],
+            awards: [
+                {
+                "title": "Concert",
+                "description": "Je sais pas quoi mettre"
+                }
             ]
         };
         let portfolioData = { ...portfolioConfig };
@@ -362,6 +349,76 @@
         let currentImageIndex = 0;
         let currentGalleryImages = [];
         let galleryManagerInstance = null;
+        function renderSocialLinks(socialData) {
+            const footerSocial = document.getElementById('footerSocial');
+            if (!footerSocial || !socialData) return;
+            
+            const socialIcons = {
+                instagram: 'fab fa-instagram',
+                twitter: 'fab fa-twitter',
+                linkedin: 'fab fa-linkedin',
+                facebook: 'fab fa-facebook',
+                youtube: 'fab fa-youtube',
+                github: 'fab fa-github',
+                behance: 'fab fa-behance',
+                dribbble: 'fab fa-dribbble'
+            };
+            
+            footerSocial.innerHTML = Object.entries(socialData).map(([platform, url]) => {
+                const iconClass = socialIcons[platform] || 'fas fa-link';
+                return `
+                    <a href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${platform}">
+                        <i class="${iconClass}"></i>
+                    </a>
+                `;
+            }).join('');
+        }
+        function renderSkills(skillsData) {
+            const skillsGrid = document.getElementById('skillsGrid');
+            if (!skillsGrid || !skillsData || !Array.isArray(skillsData)) return;
+            
+            skillsGrid.innerHTML = skillsData.map(skill => `
+                <div class="skill-card">
+                    <div class="skill-card-content">
+                        <h3>${skill.title}</h3>
+                        <p>${skill.description}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        function renderAboutSection(data) {
+            if (!data) return;
+            const about = data.about || {};
+            const contact = data.contact || {};
+            const profileImage = document.getElementById('profileImage');
+            if (profileImage && about.profileImage) {
+                profileImage.src = about.profileImage;
+            }
+            const aboutName = document.getElementById('aboutName');
+            if (aboutName && about.name) {
+                aboutName.textContent = about.name;
+            }
+            const aboutSubtitle = document.getElementById('aboutSubtitle');
+            if (aboutSubtitle && about.subtitle) {
+                aboutSubtitle.textContent = about.subtitle;
+            }
+            const aboutDescription = document.getElementById('aboutDescription');
+            if (aboutDescription && about.description) {
+                aboutDescription.textContent = about.description;
+            }
+            const contactEmail = document.getElementById('contactEmail');
+            if (contactEmail && contact.email) {
+                contactEmail.textContent = contact.email;
+            }
+            const contactPhone = document.getElementById('contactPhone');
+            if (contactPhone && contact.phone) {
+                contactPhone.textContent = contact.phone;
+            }
+            const contactAddress = document.getElementById('contactAddress');
+            if (contactAddress && contact.address) {
+                contactAddress.textContent = contact.address;
+            }
+        }
         class LightboxManager {
             constructor() {
                 this.lightbox = document.getElementById('lightbox');
@@ -565,7 +622,22 @@
                 this.data = newData;
                 this.renderGallery('work');
                 this.renderGallery('portraits');
+                if (newData.social) {
+                    renderSocialLinks(newData.social);
+                }
+                if (newData.skills) {
+                    renderSkills(newData.skills);
+                }
             }
+            updateDynamicContent(data) {
+                if (data.social) {
+                    renderSocialLinks(data.social);
+                }
+                if (data.skills) {
+                    renderSkills(data.skills);
+                }
+            }
+            
             renderGallery(type) {
                 const gallery = document.getElementById(type + 'Gallery');
                 const filters = document.getElementById(type + 'Filters');
@@ -617,7 +689,6 @@
                         const realIndex = filteredImages.findIndex(img => 
                             img.image === currentItem.image && img.category === currentItem.category
                         );
-                        console.log('Ouverture lightbox:', { galleryType, itemIndex, realIndex, filteredImages });
                         this.lightbox.open(realIndex >= 0 ? realIndex : 0, galleryType, filteredImages);
                     });
                 });
@@ -816,34 +887,7 @@
                 this.init();
             }
             init() {
-                this.initDevToolsDetection();
                 this.initContentProtection();
-                this.bindAdminUnlock();
-            }
-            initDevToolsDetection() {
-                setInterval(() => {
-                    if (!this.adminUnlocked) {
-                        const heightDiff = window.outerHeight - window.innerHeight > 160;
-                        const widthDiff = window.outerWidth - window.innerWidth > 160;
-                        
-                        if (heightDiff || widthDiff) {
-                            this.showProtection();
-                        }
-                    }
-                }, 500);
-                document.addEventListener('keydown', (event) => {
-                    if (this.adminUnlocked) return;
-                    const isDevToolsShortcut = 
-                        event.key === 'F12' ||
-                        (event.ctrlKey && event.shiftKey && ['I', 'C', 'J'].includes(event.key)) ||
-                        (event.ctrlKey && event.key === 'U') ||
-                        (event.metaKey && event.altKey && event.key === 'I');
-                    if (isDevToolsShortcut) {
-                        event.preventDefault();
-                        this.showProtection();
-                        return false;
-                    }
-                });
             }
             initContentProtection() {
                 document.addEventListener('selectstart', (event) => {
@@ -875,31 +919,6 @@
                 if (main) main.style.display = 'none';
                 if (header) header.style.display = 'none';
                 if (footer) footer.style.display = 'none';
-            }
-            bindAdminUnlock() {
-                window.unlockAdmin = () => {
-                    const passwordInput = document.getElementById('adminPassword');
-                    const password = passwordInput ? passwordInput.value : '';
-                    if (password === 'admin123') {
-                        this.adminUnlocked = true;
-                        this.devToolsOpen = false;
-                        const devToolsBlock = document.getElementById('devToolsBlock');
-                        if (devToolsBlock) {
-                            devToolsBlock.classList.remove('active');
-                        }
-                        const main = document.querySelector('.main');
-                        const header = document.querySelector('.header');
-                        const footer = document.querySelector('.footer');
-    
-                        if (main) main.style.display = 'block';
-                        if (header) header.style.display = 'block';
-                        if (footer) footer.style.display = 'block';
-    
-                        alert('Mode admin activé');
-                    } else {
-                        alert('Mot de passe incorrect');
-                    }
-                };
             }
         }
         class AnimationManager {
@@ -949,6 +968,11 @@
             const navigationManager = new NavigationManager();
             const protectionSystem = new ProtectionSystem();
             const animationManager = new AnimationManager();
+            
+            renderSocialLinks(portfolioData.social);
+            renderSkills(portfolioData.skills);
+            renderAboutSection(portfolioData);
+            
             function createGalleryManager(data) {
                 const galleries = document.querySelectorAll('.gallery-grid');
                 galleries.forEach(gallery => gallery.innerHTML = '');
@@ -963,8 +987,17 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Données JSON chargées:', data);
+                    console.log('Données JSON chargées');
                     portfolioData = { ...portfolioConfig, ...data };
+
+                    if (data.social) {
+                        renderSocialLinks(data.social);
+                    }
+                    
+                    if (data.skills) {
+                        renderSkills(data.skills);
+                    }
+                    renderAboutSection(portfolioData);
                     createGalleryManager(portfolioData);
                     console.log('Portfolio initialisé avec les données JSON ✨');
                 })
@@ -973,11 +1006,11 @@
                     createGalleryManager(portfolioData);
                     console.log('Portfolio initialisé avec les données par défaut ✨');
                 });
-    
             console.log('Portfolio moderne avec lightbox initialisé ✨');
         });
         window.updatePortfolio = function(newData) {
             portfolioData = { ...portfolioData, ...newData };
+            renderAboutSection(portfolioData);
             if (galleryManagerInstance) {
                 galleryManagerInstance.updateData(portfolioData);
             } else {
