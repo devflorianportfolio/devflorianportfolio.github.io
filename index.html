@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NJM5LPKV');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -180,6 +181,8 @@
         .footer-social a{display:flex;align-items:center;justify-content:center;width:3rem;height:3rem;background:var(--bg-glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--border-primary);border-radius:var(--radius-full);color:var(--text-secondary);font-size:1.2rem;transition:all var(--transition-fast)}
         .footer-social a:hover{background:var(--color-accent);color:white;transform:translateY(-2px);box-shadow:var(--shadow-lg)}
         .footer-bottom{color:var(--text-muted);font-size:0.9rem}
+        .footer-bottom a {text-decoration: none;color: var(--color-accent);transition: color var(--transition-fast);}
+        .footer-bottom a:hover {color: var(--text-secondary);}
         .scroll-to-top{position:fixed;bottom:var(--space-xl);right:var(--space-xl);width:3.5rem;height:3.5rem;background:var(--gradient-accent);color:white;border:none;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(20px);transition:all var(--transition-normal);box-shadow:var(--shadow-lg);z-index:999}
         .scroll-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
         .scroll-to-top:hover{transform:translateY(-3px);box-shadow:var(--shadow-xl)}
@@ -326,12 +329,14 @@
             </div>
             <div class="footer-bottom">
                 <p>© 2025 Florian - Portfolio. Tous droits réservés.</p>
+                <p>© by <a href="https://www.joao-dev.com">joao-dev.com</a> - contact@joao-dev.com</p>
             </div>
         </div>
     </footer>
     <button class="scroll-to-top" id="scrollToTopBtn" aria-label="Remonter en haut">
         <i class="fas fa-arrow-up"></i>
     </button>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NJM5LPKV"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>
         const portfolioConfig = {
             general: {
@@ -1004,7 +1009,7 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Données JSON chargées');
+                    console.log('Données JSON chargées by joao-dev.com contact --> contact@joao-dev.com');
                     portfolioData = { ...portfolioConfig, ...data };
 
                     if (data.social) {
@@ -1016,14 +1021,14 @@
                     }
                     renderAboutSection(portfolioData);
                     createGalleryManager(portfolioData);
-                    console.log('Portfolio initialisé avec les données JSON ✨');
+                    console.log('Portfolio initialisé avec les données JSON ✨ by joao-dev.com contact --> contact@joao-dev.com');
                 })
                 .catch(error => {
                     console.warn('Erreur de chargement du JSON, utilisation des données par défaut:', error.message);
                     createGalleryManager(portfolioData);
-                    console.log('Portfolio initialisé avec les données par défaut ✨');
+                    console.log('Portfolio initialisé avec les données par défaut ✨ by joao-dev.com contact --> contact@joao-dev.com');
                 });
-            console.log('Portfolio moderne avec lightbox initialisé ✨');
+            console.log('Portfolio moderne avec lightbox initialisé ✨ by joao-dev.com contact --> contact@joao-dev.com');
         });
         window.updatePortfolio = function(newData) {
             portfolioData = { ...portfolioData, ...newData };
