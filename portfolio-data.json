@@ -34,6 +34,48 @@
       "description": "Capturer l'essence des moments importants."
     }
   ],
-  "work": [],
-  "portraits": []
+  "work": [
+    {
+      "image": "https://picsum.photos/600/800?random=1757755168387",
+      "alt": "Nouvelle image",
+      "category": "Nouveau"
+    }
+  ],
+  "portraits": [
+    {
+      "image": "https://picsum.photos/600/800?random=1757755170909",
+      "alt": "Nouvelle image",
+      "category": "Nouveau"
+    },
+    {
+      "image": "https://picsum.photos/600/800?random=1757755172419",
+      "alt": "Nouvelle image",
+      "category": "Nouveau"
+    },
+    {
+      "image": "https://picsum.photos/600/800?random=1757755172822",
+      "alt": "Nouvelle image",
+      "category": "Nouveau"
+    },
+    {
+      "image": "https://picsum.photos/600/800?random=1757755173193",
+      "alt": "Nouvelle image",
+      "category": "Nouveau"
+    },
+    {
+      "image": "https://picsum.photos/600/800?random=1757755173900",
+      "alt": "Nouvelle image",
+      "category": "Nouveau"
+    },
+    {
+      "image": "https://picsum.photos/600/800?random=1757755174311",
+      "alt": "Nouvelle image",
+      "category": "Nouveau"
+    },
+    {
+      "image": "https://picsum.photos/600/800?random=1757755174593",
+      "alt": "Nouvelle image",
+      "category": "Nouveau"
+    }
+  ]
 }
