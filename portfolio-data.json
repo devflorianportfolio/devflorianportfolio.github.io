@@ -1,87 +1,39 @@
 {
   "general": {
-    "title": "Portfolio",
+    "title": "Portfolio Moderne",
     "logo": "📸",
-    "description": "Portfolio de photographie artistique et portrait"
+    "description": "Portfolio professionnel moderne et élégant"
   },
   "about": {
     "name": "À propos",
     "subtitle": "Capturer l'émotion, révéler l'essence",
-    "description": "Photographe passionné depuis plus de 8 ans, je me spécialise dans le portrait artistique et la photographie conceptuelle. Mon approche se concentre sur la capture de moments authentiques et l'expression de l'individualité de chaque sujet.",
-    "profileImage": "https://i.ibb.co/6RwgknT8/494579273-9569905496453358-4805905556807423817-n.jpg"
+    "description": "Créateur passionné spécialisé dans l'art visuel et l'expression créative.",
+    "profileImage": ""
   },
   "contact": {
-    "email": "florian@contact.com",
+    "email": "contact@portfolio.com",
     "phone": "+33 1 23 45 67 89",
     "address": "Paris, France"
   },
   "social": {
-    "instagram": "https://www.instagram.com/florian_mtgn?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
-    "twitter": "#",
-    "linkedin": "#"
+    "instagram": "",
+    "twitter": "",
+    "linkedin": ""
   },
   "skills": [
     {
       "title": "Portrait Artistique",
-      "description": "Révéler la personnalité unique de chaque individu à travers des compositions réfléchies et un éclairage maîtrisé."
+      "description": "Révéler la personnalité unique de chaque individu."
     },
     {
       "title": "Photographie de Mode",
-      "description": "Collaboration avec des créateurs pour donner vie à leurs visions artistiques à travers l'image."
+      "description": "Collaboration avec des créateurs pour donner vie aux visions."
     },
     {
       "title": "Événementiel",
-      "description": "Capturer l'essence des moments importants avec discrétion et créativité."
+      "description": "Capturer l'essence des moments importants."
     }
   ],
-  "work": [
-    {
-      "image": "https://i.ibb.co/6RwgknT8/494579273-9569905496453358-4805905556807423817-n.jpg",
-      "alt": "Portrait artistique",
-      "category": "Portrait"
-    },
-    {
-      "image": "https://i.ibb.co/39gndyfL/494575252-1153428473205755-5523850351273621540-n.jpg",
-      "alt": "Portrait artistique",
-      "category": "Portrait"
-    },
-    {
-      "image": "https://i.ibb.co/JRMQQcHD/494575517-1656921818293353-5467735360573365563-n.jpg",
-      "alt": "Portrait artistique",
-      "category": "Portrait"
-    },
-    {
-      "image": "https://i.ibb.co/99743J6Z/494577123-1222164252914950-2187654643705966028-n.jpg",
-      "alt": "Portrait artistique",
-      "category": "Portrait"
-    }
-  ],
-  "portraits": [
-    {
-      "image": "https://i.ibb.co/6RwgknT8/494579273-9569905496453358-4805905556807423817-n.jpg",
-      "alt": "Portrait",
-      "category": "Street"
-    },
-    {
-      "image": "https://i.ibb.co/39gndyfL/494575252-1153428473205755-5523850351273621540-n.jpg",
-      "alt": "Portrait",
-      "category": "Duo"
-    },
-    {
-      "image": "https://i.ibb.co/JRMQQcHD/494575517-1656921818293353-5467735360573365563-n.jpg",
-      "alt": "Portrait",
-      "category": "Concert"
-    },
-    {
-      "image": "https://i.ibb.co/99743J6Z/494577123-1222164252914950-2187654643705966028-n.jpg",
-      "alt": "Portrait",
-      "category": "Street"
-    }
-  ],
-  "awards": [
-    {
-      "title": "Concert",
-      "description": "Je sais pas quoi mettre"
-    }
-  ]
+  "work": [],
+  "portraits": []
 }
