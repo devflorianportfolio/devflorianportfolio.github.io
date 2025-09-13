@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NJM5LPKV');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration - Portfolio Moderne</title>
@@ -1593,8 +1594,9 @@
 
     <div class="status-message" id="statusMessage"></div>
 
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NJM5LPKV"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
     <script>
-        // Configuration
         const ADMIN_CONFIG = {
             allowedIPs: [
                 '86.238.222.34',
@@ -1606,7 +1608,6 @@
             }
         };
 
-        // Variables globales
         let portfolioData = {
             general: {
                 title: 'Portfolio Moderne',
@@ -1667,7 +1668,6 @@
 
         let charts = {};
 
-        // Classes
         class ThemeManager {
             constructor() {
                 this.currentTheme = localStorage.getItem('adminTheme') || 'light';
@@ -1727,7 +1727,6 @@
                 const now = new Date();
                 const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
                 
-                // Générer des données de visite pour les 7 derniers jours
                 for (let i = 6; i >= 0; i--) {
                     const date = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
                     const dateStr = date.toISOString().split('T')[0];
@@ -1739,7 +1738,6 @@
                     });
                 }
 
-                // Pages populaires
                 analyticsData.pages = {
                     '/': Math.floor(Math.random() * 200) + 50,
                     '/work': Math.floor(Math.random() * 150) + 30,
@@ -1747,7 +1745,6 @@
                     '/contact': Math.floor(Math.random() * 80) + 15
                 };
 
-                // Sources de trafic
                 analyticsData.sources = {
                     'Direct': Math.floor(Math.random() * 100) + 40,
                     'Google': Math.floor(Math.random() * 80) + 30,
@@ -1755,7 +1752,6 @@
                     'Autres': Math.floor(Math.random() * 40) + 10
                 };
 
-                // Types d'appareils
                 analyticsData.devices = {
                     'Mobile': Math.floor(Math.random() * 120) + 60,
                     'Desktop': Math.floor(Math.random() * 80) + 40,
@@ -1764,10 +1760,9 @@
             }
 
             startRealTimeTracking() {
-                // Simulation du tracking en temps réel
                 setInterval(() => {
                     this.updateRealTimeStats();
-                }, 5000); // Mise à jour toutes les 5 secondes
+                }, 5000);
             }
 
             updateRealTimeStats() {
@@ -1799,7 +1794,6 @@
                     avgTime.textContent = times[Math.floor(Math.random() * times.length)];
                 }
 
-                // Mettre à jour les indicateurs de changement
                 this.updateChangeIndicators();
             }
 
@@ -2171,14 +2165,12 @@
 
                 history.insertBefore(item, history.firstChild);
                 
-                // Garder seulement les 10 derniers éléments
                 while (history.children.length > 10) {
                     history.removeChild(history.lastChild);
                 }
             }
         }
 
-        // Fonctions utilitaires
         function updateStats() {
             document.getElementById('workCount').textContent = portfolioData.work.length;
             document.getElementById('portraitCount').textContent = portfolioData.portraits.length;
@@ -2197,7 +2189,7 @@
             } catch (error) {
                 console.error('Erreur vérification IP:', error);
                 document.getElementById('currentIP').textContent = 'Erreur de connexion';
-                return true; // Permettre l'accès en cas d'erreur de vérification IP
+                return true;
             }
         }
 
@@ -2227,21 +2219,17 @@
         }
 
         function switchTab(tabName) {
-            // Masquer tous les contenus d'onglets
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
             
-            // Désactiver tous les onglets
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // Activer l'onglet et le contenu sélectionnés
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
             
-            // Initialiser les graphiques si on passe à l'onglet analytics
             if (tabName === 'analytics' && Object.keys(charts).length === 0) {
                 setTimeout(() => {
                     analyticsManager.initCharts();
@@ -2250,13 +2238,11 @@
         }
 
         function changePeriod(period) {
-            // Mettre à jour les boutons de période
             document.querySelectorAll('.period-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
             
-            // Ici vous pourriez recharger les données pour la période sélectionnée
             showStatus(`Période changée: ${period}`, 'info');
         }
 
@@ -2310,7 +2296,6 @@
             `).join('');
         }
 
-        // Fonctions GitHub
         async function connectGitHub() {
             const token = document.getElementById('githubToken').value.trim();
             const username = document.getElementById('githubUsername').value.trim();
@@ -2400,7 +2385,6 @@
             }
         }
 
-        // Gestionnaires d'événements
         document.getElementById('authForm').addEventListener('submit', async (event) => {
             event.preventDefault();
             
@@ -2429,7 +2413,6 @@
                     document.getElementById('authContainer').style.display = 'none';
                     document.getElementById('adminPanel').style.display = 'block';
                     
-                    // Initialiser les gestionnaires
                     loadPortfolioData();
                     loadActivityLog();
                     updateStats();
@@ -2454,7 +2437,6 @@
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sauvegarde...';
                 saveBtn.disabled = true;
 
-                // Collecter les données du formulaire
                 portfolioData.general.title = document.getElementById('siteTitle').value.trim();
                 portfolioData.general.logo = document.getElementById('siteLogo').value.trim();
                 portfolioData.general.description = document.getElementById('metaDescription').value.trim();
@@ -2468,10 +2450,8 @@
                 portfolioData.social.twitter = document.getElementById('socialTwitter').value.trim();
                 portfolioData.social.linkedin = document.getElementById('socialLinkedin').value.trim();
 
-                // Sauvegarder localement
                 localStorage.setItem('portfolioData', JSON.stringify(portfolioData));
                 
-                // Synchronisation automatique GitHub si activée
                 if (githubConfig.connected && githubConfig.autoSync) {
                     try {
                         await githubManager.uploadToGitHub(portfolioData);
@@ -2510,7 +2490,6 @@
             }
         });
 
-        // Auto-sync checkbox
         document.addEventListener('change', (e) => {
             if (e.target.id === 'autoSync') {
                 githubConfig.autoSync = e.target.checked;
@@ -2519,7 +2498,6 @@
             }
         });
 
-        // Fonctions de gestion du contenu (reprises du code original)
         function loadFromJSON() {
             const input = document.createElement('input');
             input.type = 'file';
@@ -2590,7 +2568,6 @@
                 }
             });
 
-            // Charger l'image de profil si elle existe
             const profilePreview = document.getElementById('profilePreview');
             if (profilePreview && portfolioData.about.profileImage) {
                 profilePreview.src = portfolioData.about.profileImage;
@@ -2803,7 +2780,6 @@
             loadSkills();
         }
 
-        // Upload d'image de profil
         document.getElementById('profileImage').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -2834,23 +2810,18 @@
             }
         });
 
-        // Variables globales pour les gestionnaires
         let themeManager;
         let analyticsManager;
         let githubManager;
 
-        // Initialisation
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                // Initialiser les gestionnaires
                 themeManager = new ThemeManager();
                 analyticsManager = new AnalyticsManager();
                 githubManager = new GitHubManager();
                 
-                // Vérifier l'IP
                 checkIP();
                 
-                // Détecter les appareils tactiles
                 if ('ontouchstart' in window) {
                     document.body.classList.add('touch-device');
                 }
@@ -2863,7 +2834,6 @@
             }
         });
 
-        // Gestionnaires d'événements généraux
         window.addEventListener('resize', debounce(() => {
             updateStats();
         }, 250));
@@ -2898,7 +2868,6 @@
             }
         });
 
-        // Mesures de sécurité
         document.addEventListener('keydown', (e) => {
             if (e.key === 'F12' || 
                 (e.ctrlKey && e.shiftKey && e.key === 'I') ||
@@ -2913,7 +2882,6 @@
             e.preventDefault();
         });
 
-        // Fonctions d'export et debug (utile pour le développement)
         window.exportPortfolioData = function() {
             const dataStr = JSON.stringify(portfolioData, null, 2);
             const dataBlob = new Blob([dataStr], {type: 'application/json'});
@@ -2931,9 +2899,7 @@
             console.log('Analytics Data:', analyticsData);
         };
 
-        // Fonction de nettoyage au déchargement
         window.addEventListener('beforeunload', () => {
-            // Sauvegarder les données avant de quitter
             localStorage.setItem('portfolioData', JSON.stringify(portfolioData));
             analyticsManager.saveAnalyticsData();
             githubManager.saveConfig();
