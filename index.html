@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <title>Florian - Portfolio Photographe</title>
     <meta name="description" content="Portfolio de photographie artistique et portrait - Découvrez mes créations" />
     <meta name="author" content="Florian" />
@@ -10,14 +10,11 @@
     
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Portfolio">
     <link rel="apple-touch-icon" href="https://kzecqjtawqanodlaglsa.supabase.co/storage/v1/object/public/gallery/florian.jpg">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-
-    <!-- Custom Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -30,21 +27,22 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@florianmtgn" />
     <meta name="twitter:image" content="https://kzecqjtawqanodlaglsa.supabase.co/storage/v1/object/public/gallery/florian.jpg" />
-    <script type="module" crossorigin src="/assets/index-DV58DIn5.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-De2RhKYm.css">
+    <script type="module" crossorigin src="/assets/index-BSETkOfx.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BhKe85My.css">
   </head>
-
-  <script>
-    (function() {
-      var redirect = sessionStorage.redirect;
-      delete sessionStorage.redirect;
-      if (redirect && redirect !== location.href) {
-        history.replaceState(null, null, redirect);
-      }
-    })();
-  </script>
 
   <body>
     <div id="root"></div>
+
+    <script>
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
+
   </body>
 </html>
