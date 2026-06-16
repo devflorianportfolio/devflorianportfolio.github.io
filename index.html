@@ -28,19 +28,31 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@florianmtgn" />
     <meta name="twitter:image" content="https://kzecqjtawqanodlaglsa.supabase.co/storage/v1/object/public/gallery/florian.jpg" />
-    <script type="module" crossorigin src="/assets/index-jSuSCAax.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-C8eC8aB6.css">
+    <script type="module" crossorigin src="/assets/index-D5YfWXU9.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CsdvSVtL.css">
   </head>
 
   <body>
     <div id="root"></div>
 
     <script>
-      (function() {
+      (function () {
         var redirect = sessionStorage.redirect;
         delete sessionStorage.redirect;
         if (redirect && redirect !== location.href) {
           history.replaceState(null, null, redirect);
+        }
+        var search = location.search;
+        if (search) {
+          var params = {};
+          search.slice(1).split('&').forEach(function (pair) {
+            var kv = pair.split('=');
+            params[kv[0]] = kv.slice(1).join('=').replace(/~and~/g, '&');
+          });
+          if (params.p !== undefined) {
+            var decoded = params.p + (params.q ? '?' + params.q : '') + (params.h || '');
+            history.replaceState(null, null, decoded || '/');
+          }
         }
       })();
     </script>

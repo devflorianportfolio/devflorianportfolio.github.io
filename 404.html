@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
-    <meta charset="utf-8">
-    <title>Redirecting...</title>
+    <meta charset="utf-8" />
+    <title>Redirection...</title>
     <script>
-      sessionStorage.redirect = location.href;
-      location.replace(
-        location.origin + 
-        location.pathname.split('/').slice(0, -1).join('/') + 
-        '/?redirect=' + 
-        encodeURIComponent(location.pathname + location.search + location.hash)
+      // GitHub Pages SPA redirect trick.
+      // Converts /some/path?query into /?p=/some/path&q=query
+      // so index.html can restore the original URL via history.replaceState.
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + l.pathname.split('/')[1] +
+        '/?p=/' + l.pathname.slice(1).replace(/&/g, '~and~') +
+        (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
       );
     </script>
   </head>
