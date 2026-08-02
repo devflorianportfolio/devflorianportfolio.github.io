@@ -9,7 +9,7 @@
       // so index.html can restore the original URL via history.replaceState.
       var l = window.location;
       l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + l.pathname.split('/')[1] +
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
         '/?p=/' + l.pathname.slice(1).replace(/&/g, '~and~') +
         (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
         l.hash
