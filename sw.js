@@ -82,6 +82,8 @@ self.addEventListener('fetch', (event) => {
 });
 
 async function networkFirstBootstrap(request) {
+  const forceLive = request.headers.get('x-force-live') === 'true';
+  if (forceLive) await caches.delete(BOOTSTRAP_CACHE);
   try {
     const response = await fetch(request);
     if (response.ok && request.method === 'GET') {
