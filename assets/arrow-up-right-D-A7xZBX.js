@@ -1,0 +1,1 @@
+import{c as t}from"./index-DQV2rzch.js";const o={name:"arrow-up-right",size:24,node:[["path",{d:"M7 7h10v10",key:"1tivn9"}],["path",{d:"M7 17 17 7",key:"1vkiza"}]]};o.node;const e=t(o);export{e as A};

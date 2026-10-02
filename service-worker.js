@@ -189,9 +189,30 @@ const getOfflineGalleryList = async () => {
 // ─── Handlers réseau ──────────────────────────────────────────────────────────
 
 const handleBootstrapRequest = async request => {
+  const includeHidden = request.headers.get('x-include-hidden') === 'true';
+  const forceLive = request.headers.get('x-force-live') === 'true';
+
+  // Staff-only gallery snapshots must never enter shared service-worker
+  // storage. Forced-live fetches must not be satisfied by an old response.
+  if (includeHidden) return fetch(request);
+
   const cache    = await caches.open(BOOTSTRAP_CACHE_NAME);
   const url      = new URL(request.url);
   const cacheKey = url.origin + url.pathname;
+  if (forceLive) {
+    await cache.delete(cacheKey);
+    const fresh = await fetch(request);
+    if (fresh.ok) {
+      const headers = new Headers(fresh.headers);
+      headers.set('x-cache-time', Date.now().toString());
+      await cache.put(cacheKey, new Response(await fresh.clone().blob(), {
+        status: fresh.status,
+        statusText: fresh.statusText,
+        headers,
+      }));
+    }
+    return fresh;
+  }
   const cached   = await cache.match(cacheKey);
 
   if (cached) {
@@ -404,7 +425,12 @@ self.addEventListener('message', event => {
       caches.delete(API_CACHE_NAME); break;
 
     case 'CLEAR_BOOTSTRAP_CACHE':
-      caches.delete(BOOTSTRAP_CACHE_NAME); break;
+      event.waitUntil(
+        caches.delete(BOOTSTRAP_CACHE_NAME).then(() => {
+          event.ports?.[0]?.postMessage({ type: 'BOOTSTRAP_CACHE_CLEARED' });
+        })
+      );
+      break;
 
     // ← NOUVEAU : precacher la galerie complète pour offline
     case 'CACHE_GALLERY_OFFLINE': {
