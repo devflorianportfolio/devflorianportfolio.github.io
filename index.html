@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
@@ -13,28 +13,24 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Portfolio">
-    <link rel="apple-touch-icon" href="https://kzecqjtawqanodlaglsa.supabase.co/storage/v1/object/public/gallery/florian.jpg">
-    <link rel="dns-prefetch" href="https://kzecqjtawqanodlaglsa.supabase.co">
-    <link rel="preconnect" href="https://kzecqjtawqanodlaglsa.supabase.co" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap&font-display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="/florian.ico">
+    <link rel="preconnect" href="https://acuxizspruxrdvukpguo.supabase.co" crossorigin>
 
     <meta property="og:title" content="Florian - Portfolio Photographe" />
     <meta property="og:description" content="Portfolio de photographie artistique et portrait" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://kzecqjtawqanodlaglsa.supabase.co/storage/v1/object/public/gallery/florian.jpg" />
+    <meta property="og:image" content="/florian.ico" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@florianmtgn" />
-    <meta name="twitter:image" content="https://kzecqjtawqanodlaglsa.supabase.co/storage/v1/object/public/gallery/florian.jpg" />
-    <script type="module" crossorigin src="/assets/index-DQV2rzch.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor-react-Di30lDmo.js">
+    <meta name="twitter:image" content="/florian.ico" />
+    <script type="module" crossorigin src="/assets/index-y82OTiVa.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-BfISZy2m.js">
     <link rel="modulepreload" crossorigin href="/assets/vendor-supabase-CXCDHvas.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-radix-fMFXy0Mr.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-query-BCo5FPJs.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-motion-C1yTde34.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-BYFLFD21.css">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-radix-DBzpMu-w.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-query-CNapfuAT.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-motion-EPJRc_1U.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-vbB5h2lL.css">
   </head>
 
   <body>
@@ -47,16 +43,17 @@
         if (redirect && redirect !== location.href) {
           history.replaceState(null, null, redirect);
         }
-        var search = location.search;
-        if (search) {
-          var params = {};
-          search.slice(1).split('&').forEach(function (pair) {
-            var kv = pair.split('=');
-            params[kv[0]] = kv.slice(1).join('=').replace(/~and~/g, '&');
-          });
-          if (params.p !== undefined) {
-            var decoded = params.p + (params.q ? '?' + params.q : '') + (params.h || '');
-            history.replaceState(null, null, decoded || '/');
+        var params = new URLSearchParams(location.search);
+        if (params.has('p')) {
+          var redirect = params.get('p') || '/';
+          var legacyQuery = params.get('q');
+          if (legacyQuery !== null) {
+            redirect += legacyQuery ? '?' + legacyQuery.replace(/~and~/g, '&') : '';
+            redirect += params.get('h') || '';
+          }
+          var target = new URL(redirect, location.origin);
+          if (target.origin === location.origin && target.pathname.startsWith('/') && !target.pathname.startsWith('//')) {
+            history.replaceState(null, null, target.pathname + target.search + target.hash);
           }
         }
       })();

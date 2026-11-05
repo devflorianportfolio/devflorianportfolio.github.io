@@ -4,16 +4,10 @@
     <meta charset="utf-8" />
     <title>Redirection...</title>
     <script>
-      // GitHub Pages SPA redirect trick.
-      // Converts /some/path?query into /?p=/some/path&q=query
-      // so index.html can restore the original URL via history.replaceState.
       var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        '/?p=/' + l.pathname.slice(1).replace(/&/g, '~and~') +
-        (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+      var redirect = new URL('/', l.origin);
+      redirect.searchParams.set('p', l.pathname + l.search + l.hash);
+      l.replace(redirect.toString());
     </script>
   </head>
   <body></body>
