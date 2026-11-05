@@ -1,0 +1,1 @@
+const l=r=>r?r.copyright_enabled?r.watermarked_thumbnail_url??r.watermarked_url??r.thumbnail_url??r.image_url:r.thumbnail_url??r.image_url:null,u=r=>r?r.copyright_enabled?r.watermarked_url??r.watermarked_thumbnail_url??r.image_url:r.image_url:null;export{l as a,u as g};
